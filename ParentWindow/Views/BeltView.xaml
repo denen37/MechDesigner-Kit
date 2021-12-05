@@ -1,0 +1,375 @@
+﻿<UserControl x:Class="ParentWindow.ViewModels.BeltView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ParentWindow.ViewModels"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="beltInfo" Grid.Column="2" Orientation="Vertical">
+                <StackPanel.Resources>
+                    
+                    <!--Normal textbox style-->
+                    <Style x:Key="txtStyle" TargetType="TextBox">
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="Margin" Value="5,5,5,0"/>
+                        <Setter Property="Padding" Value="3"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                        <Setter Property="MinWidth" Value="50"/>
+                    </Style>
+                    
+                    <!-- Normal Textblock style -->
+                    <Style x:Key="labelStyle" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="Margin" Value="5,5,5,0"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                    </Style>
+                    
+                    <!--Unit textblock style-->
+                    <Style x:Key="unitStyle" TargetType="TextBlock" BasedOn="{StaticResource labelStyle}">
+                        <Setter Property="Margin" Value="0,5,5,0"/>
+                    </Style>
+                    
+                    <!--Normal Combobox style -->
+                    <Style x:Key="comboStyle" TargetType="ComboBox">
+                        <Setter Property="FontWeight" Value="Normal"/>
+                        <Setter Property="Margin" Value="5,5,5,0"/>
+                        <Setter Property="MinWidth" Value="50"/>
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <!--<Setter Property="SelectedIndex" Value="0"/>-->
+                    </Style>
+                    
+                    <!--Expander style-->
+                    <Style x:Key="expanderStyle" TargetType="Expander">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Margin" Value="5"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <!--Material Expander-->
+                <Expander x:Name="materialGroup" Header="Material" IsExpanded="True" 
+                          Style="{StaticResource expanderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Belt Materials -->
+                        <TextBlock x:Name="materialLabel" Grid.Column="0" Grid.Row="0" Text="Belt Material"
+                                   Style="{StaticResource labelStyle}"/>
+                        <ComboBox x:Name="BeltMaterials" Grid.Column="1" Grid.Row="0" DisplayMemberPath="BeltMaterial"
+                                  SelectedItem="{Binding SelectedBelt, Mode=OneWayToSource}" Style="{StaticResource comboStyle}"
+                                  cal:Message.Attach="[Event SelectionChanged] = [Action GetSpecifications]"/>
+
+                        <!-- Specification -->
+                        <TextBlock x:Name="specificationLabel" Grid.Column="0" Grid.Row="1" Text="Specification"
+                                   Style="{StaticResource labelStyle}"/>
+                        <ComboBox x:Name="Specification" Grid.Column="1" Grid.Row="1"  Style="{StaticResource comboStyle}"
+                                  SelectedItem="{Binding SelectedSpecification, Mode=OneWayToSource}"
+                                  cal:Message.Attach="[Event SelectionChanged] = [Action GetThicknessess]"/>
+                    </Grid>
+                </Expander>
+
+                <!--Geometry Expander-->
+                <Expander x:Name="geometryGroup" Header="Geometry and Arrangement" IsExpanded="True" 
+                          Style="{StaticResource expanderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!--Belt thickness-->
+                        <TextBlock x:Name="thicknessLabel" Grid.Column="0" Grid.Row="0" Text="*Thickness" 
+                                   Style="{StaticResource labelStyle}"/>
+                        <ComboBox Name="Thicknessess" Grid.Column="1" Grid.Row="0" Style="{StaticResource comboStyle}"
+                                  SelectedItem="{Binding SelectedThickness}"
+                                  cal:Message.Attach="[Event SelectionChanged] = [Action GetBeltData]"/>
+                        <TextBlock Text="{Binding LengthUnit}" Grid.Column="2" Grid.Row="0"
+                                   Style="{StaticResource unitStyle}" />
+
+                        <!--Belt Width-->
+                        <TextBlock x:Name="widthLabel" Grid.Column="0" Grid.Row="1" Text="*Width, w"
+                                 Style="{StaticResource labelStyle}"/>
+                        <TextBox Text="{Binding BeltWidth}" Grid.Column="1" Grid.Row="1" Style="{StaticResource txtStyle}"/>
+                        <TextBlock Text="{Binding LengthUnit}" Grid.Column="2" Grid.Row="1" 
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Small Pulley Diameter-->
+                        <TextBlock x:Name="smallPulleyDiaLabel" Grid.Column="0" Grid.Row="2" 
+                                   Text="*Small Pulley Diameter, d" Style="{StaticResource labelStyle}"/>
+                        <TextBox Text="{Binding SmallPulleyDiameter}" Grid.Column="1" Grid.Row="2" 
+                                 Style="{StaticResource txtStyle}" />
+                        <TextBlock Text="{Binding LengthUnit}" Grid.Column="2" Grid.Row="2"                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Big Pulley Diameter-->
+                        <TextBlock x:Name="bigPulleyDiaLabel" Grid.Column="0" Grid.Row="3"
+                                   Text="Big Pulley Diameter, D" Style="{StaticResource labelStyle}"/>
+                        <TextBox Text="{Binding BigPulleyDiameter}" Grid.Column="1" Grid.Row="3" 
+                                 Style="{StaticResource txtStyle}" />
+                        <!--IsReadOnly="{Binding CanChangeBigPulley}"-->
+                        <TextBlock Text="{Binding LengthUnit}" Grid.Column="2" Grid.Row="3" 
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Velocity Ratio-->
+                        <TextBlock x:Name="velRatioLabel" Grid.Column="0" Grid.Row="4" 
+                                   Text="Velocity ratio, v" Style="{StaticResource labelStyle}"/>
+                        <TextBox Text="{Binding  VelocityRatio}" Grid.Column="1" Grid.Row="4" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="{Binding CanChangeVelocityRatio}"/>
+
+                        <!--Center to Center Distance-->
+                        <TextBlock x:Name="c_To_C_DistLabel" Grid.Column="0" Grid.Row="5"
+                                   Text="*Center to Center Distance, C" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="CtoCDistanceTxt" Grid.Column="1" Grid.Row="5" 
+                                 Text="{Binding CtoCDistance, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
+                        <TextBlock Text="{Binding MajorLengthUnit}" Grid.Column="2" Grid.Row="5" 
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Angle of Contact, a-->
+                        <TextBlock x:Name="angleOfContactLabel_a" Grid.Column="0" Grid.Row="6"
+                                   Text="Angle of Contact, a" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="AngleOfContactA" Grid.Column="1" Grid.Row="6" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding AngleUnit}" Grid.Column="2" Grid.Row="6"
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Angle of Contact, b-->
+                        <TextBlock x:Name="angleOfContactLabel_b" Grid.Column="0" Grid.Row="7"
+                                   Text="Angle of Contact, b" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="AngleOfContactB" Grid.Column="1" Grid.Row="7" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding AngleUnit}" Grid.Column="2" Grid.Row="7"
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Belt Length-->
+                        <TextBlock x:Name="lengthLabel" Grid.Column="0" Grid.Row="8"
+                                   Text="Length, L" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="Length" Grid.Column="1" Grid.Row="8" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding MajorLengthUnit}" Grid.Column="2" Grid.Row="8"
+                                   Style="{StaticResource unitStyle}"/>
+
+                        <!--Dip-->
+                        <TextBlock x:Name="dipLabel" Grid.Column="0" Grid.Row="9"
+                                   Text="Dip" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="Dip" Grid.Column="1" Grid.Row="9" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding LengthUnit}" Grid.Column="2" Grid.Row="9"
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                    </Grid>
+                </Expander>
+
+                <!--Kinematics Expander-->
+                <Expander x:Name="kinematicsGroup" Header="Kinematics" 
+                          Style="{StaticResource expanderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!--Angular Velocity of Small Pulley-->
+                        <TextBlock x:Name="angVelSmallPuleyLabel" Grid.Column="0" Grid.Row="0"
+                                   Text="*Angular Velocity, n..." ToolTip="Angular Velocity of Small Pulley, n"
+                                   Style="{StaticResource labelStyle}"/>
+                        <TextBox Text="{Binding AngVel}" Grid.Column="1" Grid.Row="0" 
+                                 Style="{StaticResource txtStyle}"/>
+                        <TextBlock Text="{Binding AngVelUnit}" Grid.Column="2" Grid.Row="0"
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Linear Velocity-->
+                        <TextBlock x:Name="linVelocity" Grid.Column="0" Grid.Row="1" Style="{StaticResource labelStyle}"
+                                   Text="Linear Velocity, v"/>
+                        <TextBox x:Name="LinVel" Grid.Column="1" Grid.Row="1" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding LinVelUnit}" Grid.Column="2" Grid.Row="1"
+                                   Style="{StaticResource unitStyle}"/>
+
+                    </Grid>
+                </Expander>
+
+                <!--Factors Expander-->
+                <Expander x:Name="factorsGroup" Header="Adjustments"
+                          Style="{StaticResource expanderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!--Service factor-->
+                        <TextBlock x:Name="serviceFactorLabel" Grid.Column="0" Grid.Row="0" 
+                                       Text="*Service Factor" Style="{StaticResource labelStyle}"/>
+                        <Grid Grid.Column="1" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding ServiceFactor}" Grid.Column="0"
+                                 Style="{StaticResource txtStyle}"/>
+                            <Button x:Name="MoreInfoBtn" Content="..." Grid.Column="1"
+                                    Padding="3" Margin="0,5,5,0" ToolTip="Help"/>
+                        </Grid>
+                        <!--Design Factor-->
+                        <TextBlock x:Name="designFactorLabel" Grid.Column="0" Grid.Row="1" 
+                                       Text="*Design Factor" Style="{StaticResource labelStyle}"/>
+                        <TextBox Text="{Binding DesignFactor}" Grid.Column="1" Grid.Row="1" 
+                                 Style="{StaticResource txtStyle}"
+                                  cal:Message.Attach="[Event LostFocus] = [Action GetCorrectionFactors]"/>
+
+                        <!--Pulley Correction Factor-->
+                        <TextBlock x:Name="pulleyCorrectionLabel" Grid.Column="0" Grid.Row="2" 
+                                       Text="Pulley Correction Factor, Cp" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="PulleyCorrectionFactor" Grid.Column="1" Grid.Row="2" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+
+                        <!--Velocity Correction Factor-->
+                        <TextBlock x:Name="velocityCorrectionLabel" Grid.Column="0" Grid.Row="3" 
+                                       Text="Velocity Correction Factor, Cv" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="VelocityCorrectionFactor" Grid.Column="1" Grid.Row="3" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                    </Grid>
+                </Expander>
+
+                <!--Dynamics Expander-->
+                <Expander x:Name="dynamicsGroup" Header="Dynamics" 
+                          Style="{StaticResource expanderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!--Power Transmitted-->
+                        <TextBlock x:Name="powerLabel" Grid.Column="0" Grid.Row="0" 
+                                       Text="*Power Transmitted" Style="{StaticResource labelStyle}"/>
+                        <TextBox Text="{Binding PowerTransmitted}" Grid.Column="1" Grid.Row="0" 
+                                 Style="{StaticResource txtStyle}"
+                                 cal:Message.Attach="[Event LostFocus] = [Action CalculateForces]"/>
+                        <TextBlock Text="{Binding PowerUnit}" Grid.Column="2" Grid.Row="0" 
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Slack Tension-->
+                        <TextBlock x:Name="slackTensionLabel" Grid.Column="0" Grid.Row="1"
+                                       Text="Slack Tension, F1" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="SlackTension" Grid.Column="1" Grid.Row="1" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding ForceUnit}" Grid.Column="2" Grid.Row="1"
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Tight Tension-->
+                        <TextBlock x:Name="tightTensionLabel" Grid.Column="0" Grid.Row="2" 
+                                       Text="Tight Tension, F2" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="TightTension" Grid.Column="1" Grid.Row="2" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding ForceUnit}" Grid.Column="2" Grid.Row="2"
+                                   Style="{StaticResource unitStyle}"/>
+
+
+                        <!--Centrifugal Tension-->
+                        <TextBlock x:Name="centrifugalLabel" Grid.Column="0" Grid.Row="3"
+                                       Text="Centrifugal Force, Fc" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="CentrifugalForce" Grid.Column="1" Grid.Row="3" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding ForceUnit}" Grid.Column="2" Grid.Row="3"
+                                   Style="{StaticResource unitStyle}"/>
+
+                        <!--Belt Weight-->
+                            <TextBlock x:Name="weightLabel" Grid.Column="0" Grid.Row="4"
+                                       Text="Weight, W" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="BeltWeight" Grid.Column="1" Grid.Row="4" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding ForceUnit}" Grid.Column="2" Grid.Row="4"
+                                   Style="{StaticResource unitStyle}"/>
+
+                        <!--Torque-->
+                        <TextBlock x:Name="torqueLabel" Grid.Column="0" Grid.Row="5"
+                                       Text="Torque, T" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="Torque" Grid.Column="1" Grid.Row="5" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding TorqueUnit}" Grid.Column="2" Grid.Row="5"
+                                   Style="{StaticResource unitStyle}"/>
+                        
+                        <!--Initial Tension-->
+                        <TextBlock x:Name="initialTensionLabel" Grid.Column="0" Grid.Row="6" 
+                                       Text="Initial Tension, Fi" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="InitialTension" Grid.Column="1" Grid.Row="6" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding ForceUnit}" Grid.Column="2" Grid.Row="6" 
+                                   Style="{StaticResource unitStyle}"/>
+
+                        <!--Largest Allowable Tension-->
+                        <TextBlock x:Name="allowableTensionLabel" Grid.Column="0" Grid.Row="7" 
+                                       Text="Largest Allowable Tension, Fi" Style="{StaticResource labelStyle}"/>
+                        <TextBox x:Name="AlowableTension" Grid.Column="1" Grid.Row="7" 
+                                 Style="{StaticResource txtStyle}" IsReadOnly="True"/>
+                        <TextBlock Text="{Binding ForceUnit}" Grid.Column="2" Grid.Row="7"
+                                   Style="{StaticResource unitStyle}"/>
+                    </Grid>
+                </Expander>
+                
+                <Expander x:Name="standardGroup" Header="Standard" 
+                          Style="{StaticResource expanderStyle}"></Expander>
+                <Expander x:Name="costAndSupplyGroup" Header="Cost and Supply"
+                          Style="{StaticResource expanderStyle}"></Expander>
+                <Expander x:Name="helpGroup" Header="Help" 
+                          Style="{StaticResource expanderStyle}"></Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

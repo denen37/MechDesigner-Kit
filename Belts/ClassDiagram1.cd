@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Belts.App" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Bootstrapper" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAABAACIABAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Bootstrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.EventsModel.MsgBoxParam" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAQAAAAEAAAAAAAAAAQAAAAEAAEAAAAICAAAIEAAAAA=</HashCode>
+      <FileName>EventsModel\MsgBoxParam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Models.BeltCalculations" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEggAAAAICAAAgQAAAAAAKAABQAAAAABCAABAAAAAg=</HashCode>
+      <FileName>Models\BeltCalculations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Models.BeltCalculator" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BeltCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Models.BeltDbConnection" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AICAAAgAAAAAAAAACACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BeltDbConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Models.BeltProperties" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YBICwgAAAGgCCBAogAAASBABUEFANABiAAAmEAIRAAI=</HashCode>
+      <FileName>Models\BeltProperties.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Models.MessagesModel" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Models\MessagesModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Models.UnitConverter" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAIAAAAEAAAAAAAgAAACCBAAAQAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\UnitConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Models.UnitList" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAoAAAAABAAEAAAAAAAACABAAAgBIBQBAIAEAEAMQAA=</HashCode>
+      <FileName>Models\UnitList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Properties.Resources" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Properties.Settings" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.ViewModels.BeltViewModel" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>NBoASgAAUAkmABjgICCUCgJDUABAIBCAEIQlEAERxQM=</HashCode>
+      <FileName>ViewModels\BeltViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BeltWindow.Views.BeltView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\BeltView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="BeltWindow.Models.Material" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAIAAAAAgAAAAAQA=</HashCode>
+      <FileName>Models\BeltProperties.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

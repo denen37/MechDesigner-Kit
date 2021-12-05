@@ -1,0 +1,996 @@
+﻿<Window x:Class="GearWindow.Views.GearView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GearWindow"
+        xmlns:cal="http://www.caliburnproject.org"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="Design of Spur Gears" Height="700" Width="1000">
+    <!--Height="700" Width="1000"-->
+    <Window.Resources>
+        <!--TextBlock Style -->
+        <Style x:Key="TxtBlkStyle_Param" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="5, 3, 5, 3"/>
+        </Style>
+        <Style x:Key="TxtBlkStyle_Unit" TargetType="TextBlock" BasedOn="{StaticResource TxtBlkStyle_Param}">
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0, 3, 5, 3"/>
+        </Style>
+        <Style x:Key="TxtBlkStyle_Header" TargetType="TextBlock" BasedOn="{StaticResource TxtBlkStyle_Param}">
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+
+        <!--TextBox Style 1-->
+        <Style x:Key="TxtBoxStyle_Normal" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="5, 3, 5, 3"/>
+        </Style>
+        
+        <!--Button Style 1-->
+        <Style x:Key="BtnStyle_Info" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="0, 3, 5, 3"/>
+        </Style>
+        
+        <!--Run Style-->
+        <Style x:Key="RunStyle_Normal" TargetType="Run">
+            <Setter Property="BaselineAlignment" Value="Subscript"/>
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+        
+        <!--DropDown Style-->
+        <Style x:Key="DropdownStyle_Normal" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="5, 3, 5, 3"/>
+        </Style>
+        
+        <!--RadioButton Style-->
+        <Style x:Key="RadioBtnStyle_Normal" TargetType="RadioButton">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="5, 3, 5, 3"/>
+        </Style>
+
+        <!--GroupBox Style-->
+        <Style x:Key="GroupboxStyle" TargetType="GroupBox">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5, 3, 5, 3"/>
+        </Style>
+    </Window.Resources>
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!--Left Column-->
+            <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <Grid Grid.IsSharedSizeScope="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Parent Row 1-->
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFourthCol"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Application-->
+                        <TextBlock Grid.Column="0" Text="APPLICATION:" Style="{StaticResource TxtBlkStyle_Param}"
+                               ToolTip="What will the gear drive be used for" FontWeight="Bold"/>
+                        <Border Grid.Column="1" CornerRadius="5" BorderBrush="Black" BorderThickness="2"
+                                Margin="5,3,5,3">
+                            <TextBox Name="Application" Margin="0" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        </Border>
+                        <Button Grid.Column="2" Name="LoadApplication" Content="..." Style="{StaticResource BtnStyle_Info}"
+                            ToolTip="More Information"/>
+                    </Grid>
+
+                    <!--Parent Row 2-->
+                    <!--Initial input data header-->
+                    <TextBlock Grid.Row="1" Text="Initial Input Data" Style="{StaticResource TxtBlkStyle_Header}"/>
+
+                    <!--Parent Row 3-->
+                    <Grid Grid.Row="2" Background="LightBlue">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFirstCol"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightSecondCol"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFourthCol"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Input Power-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Input Power:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   ToolTip="Design Specification"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1"  Style="{StaticResource TxtBlkStyle_Param}">
+                        P =
+                        </TextBlock>
+                        <TextBox x:Name="InputPower" Grid.Row="0" Grid.Column="2" Text="" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding PowerUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                        <!--Input Speed-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Input Speed:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   ToolTip="Design Specification"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         n<Run Text="P" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox x:Name="InputSpeed" Grid.Row="1" Grid.Column="2" Text="" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding SpeedUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                        <!--Diametral Pitch-->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Diametral Pitch:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   ToolTip="Design Decision: Select a trial diametral pitch. See Fig 1"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         P<Run Text="d" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox x:Name="DiametralPitch" Grid.Row="2" Grid.Column="2" Text="" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button x:Name="ShowDPGraph" Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"
+                            ToolTip="See Fig 1"/>
+
+                        <!--Number of Pinion Teeth-->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Number of Pinion Teeth:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   ToolTip="Design Decision"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         N<Run Text="P" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Name="NoOfPinionTeeth" Grid.Row="3" Grid.Column="2" Text="" Style="{StaticResource TxtBoxStyle_Normal}"/>
+
+                        <!--Desired Output Speed-->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Desired Output Speed:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   ToolTip="Design Specification"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         n<Run Text="G" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding GearSpeed}" Style="{StaticResource TxtBoxStyle_Normal}"
+                                 cal:Message.Attach="[Event LostFocus] = [Action ComputeGeometry]"/>
+                        <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding SpeedUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>
+
+                    <!--Parent Row 4-->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFirstCol"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightSecondCol"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--Computed Number of Gear Teeth-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Computed Number of Gear Teeth:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <!--<TextBlock Grid.Row="0" Grid.Column="1" Text="P = " Style="{StaticResource TxtBlkStyle_1}"/>-->
+                        <TextBlock Text="{Binding NoOfGearTeeth}" Grid.Row="0" Grid.Column="2" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                        <!--<TextBlock Grid.Row="0" Grid.Column="3" Text="rpm" Style="{StaticResource TxtBlkStyle_2}"/>-->
+                    </Grid>
+                    
+                    <!--Parent Row 5-->
+                    <Grid Grid.Row="4" Background="LightBlue">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFirstCol"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightSecondCol"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFourthCol"/>
+                        </Grid.ColumnDefinitions>
+                        <!--Chosen number of gear teeth-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Enter: Chosen No. of Gear Teeth:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   ToolTip="Should be a whole number."/>
+                        <!--<TextBlock Grid.Row="1" Grid.Column="1" Text="P = " Style="{StaticResource TxtBlkStyle_1}"/>-->
+                        <TextBox x:Name="ChosenNoOfGearTeeth" Grid.Row="0" Grid.Column="2" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <!--<TextBlock Grid.Row="1" Grid.Column="3" Text="rpm" Style="{StaticResource TxtBlkStyle_2}"/>-->
+                    </Grid>
+
+                    <!--Parent Row 6-->
+                    <Expander Grid.Row="5">
+                        <Expander.Header>
+                            <TextBlock Text="Computed Data:" Style="{StaticResource TxtBlkStyle_Header}"/>
+                        </Expander.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="RightFirstCol"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--Actual Output Speed-->
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Actual Output Speed:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                                n<Run Text="G" Style="{StaticResource RunStyle_Normal}"/> =
+                            </TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding ActualGearSpeed}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding SpeedUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <!--Gear Ratio-->
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Gear Ratio:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         m<Run Text="G" Style="{StaticResource RunStyle_Normal}"/> =
+                            </TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding GearRatio}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <!--Pitch Diameter-Pinion-->
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Pitch Diameter - Pinion:" Style="{StaticResource TxtBlkStyle_Param}"
+                                       ToolTip="Theoretical Pitch Circle on which gear calculations are based"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         D<Run Text="P" Style="{StaticResource RunStyle_Normal}"/> =
+                            </TextBlock>
+                            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PinionPitchDiameter}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding LengthUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <!--Pitch Diameter-Gear-->
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Pitch Diameter - Gear:" Style="{StaticResource TxtBlkStyle_Param}"
+                                       ToolTip="Theoretical Pitch Circle on which gear calculations are based"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         D<Run Text="G" Style="{StaticResource RunStyle_Normal}"/> =
+                            </TextBlock>
+                            <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding GearPitchDiameter}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                            <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding LengthUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <!--Center Distance-->
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Center Distance:" Style="{StaticResource TxtBlkStyle_Param}"
+                                       ToolTip="Distance between the centers of the two gears"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                                 C =
+                            </TextBlock>
+                            <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding CenterDistance}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                            <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding LengthUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <!--Pitch Line Speed-->
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Pitch Line Speed:" Style="{StaticResource TxtBlkStyle_Param}"
+                                       ToolTip="The linear velocity at point of contact"/>
+                            <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         v<Run Text="t" Style="{StaticResource RunStyle_Normal}"/> =
+                            </TextBlock>
+                            <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding PitchLineSpeed}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                            <TextBlock Grid.Row="5" Grid.Column="3" Text="{Binding LinearSpeedUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+
+                            <!--Transmitted Load-->
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Transmitted Load:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                            <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         W<Run Text="t" Style="{StaticResource RunStyle_Normal}"/> =
+                            </TextBlock>
+                            <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding TransmittedLoad}" Style="{StaticResource TxtBlkStyle_Unit}"
+                                       ToolTip="Tangential Force"/>
+                            <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding ForceUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                        </Grid>
+                    </Expander>
+                    
+                    <!--Parent row 7-->
+                    <Grid Grid.Row="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Min Nom Max Headers-->
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Min" HorizontalAlignment="Center"
+                                    FontWeight="Bold" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Nom" HorizontalAlignment="Center"
+                                    FontWeight="Bold" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="Max" HorizontalAlignment="Center"
+                                    FontWeight="Bold" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        
+                        <!--Face Width Guideline-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Face Width Guidelines(in):" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding MinFaceWidth}" HorizontalAlignment="Center"
+                                    Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding NomFaceWidth}" HorizontalAlignment="Center"
+                                    Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding MaxFaceWidth}" HorizontalAlignment="Center"
+                                    Style="{StaticResource TxtBlkStyle_Param}"/>
+                    </Grid>
+                    
+                    <!--Parent Row 8-->
+                    <Grid Grid.Row="7" Background="LightBlue">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFirstCol"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightSecondCol"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFourthCol"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Enter Face Width-->
+                        <TextBlock Grid.Column="0" Text="Enter: Face Width:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Column="1" Text="F =" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBox Grid.Column="2" Text="{Binding FaceWidth}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <TextBlock Grid.Column="3" Text="in" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>
+                    
+                    <!--Parent Row 9-->
+                    <Grid Grid.Row="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Ratio: Face Width to Pinion Diameter-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Ratio: Face Width to Pinion Diameter"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            F/D<Run Text="P" Style="{StaticResource RunStyle_Normal}"/> = 
+                        </TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FaceWidthToPinionDiameter}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                        
+                        <!--Recommended Ratio-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Recommended Ratio:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            F/D<Run Text="P" Style="{StaticResource RunStyle_Normal}"/> &lt;
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding RecommendedRatio}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>
+                    
+                    <!--Parent row 10-->
+                    <!--Material-->
+                    <Grid Grid.Row="9" Background="LightBlue">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Pinion Material-->
+                        <TextBlock Grid.Column="0" Text="Pinion Material" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <ComboBox Name="pinionDropdown" Grid.Column="1" Style="{StaticResource DropdownStyle_Normal}"
+                                  SelectedItem="{Binding PinionMaterial}" ItemsSource="{Binding AvailableMaterials}"
+                                  cal:Message.Attach="[Event SelectionChanged] = [Action PinionMaterialChanged]"/>
+
+                        <!--Gear Material-->
+                        <TextBlock Grid.Column="3" Text="Gear Material" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <ComboBox Name="gearDropdown" Grid.Column="4" Style="{StaticResource DropdownStyle_Normal}"
+                                  SelectedIndex="{Binding ElementName=pinionDropdown, Path=SelectedIndex, Mode=OneWay}"
+                                  SelectedItem="{Binding GearMaterial}" ItemsSource="{Binding AvailableMaterials}"
+                                   cal:Message.Attach="[Event SelectionChanged] = [Action GearMaterialChanged]"/>
+                    </Grid>
+                    
+                    <!--Parent Row 11-->
+                    <Grid Grid.Row="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFourthCol"/>
+                        </Grid.ColumnDefinitions> 
+                        
+                        <!--Elastic Coefficient-->
+                        <TextBlock Grid.Column="0" Text="Elastic Coefficient" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            C<Run Text="p" Style="{StaticResource RunStyle_Normal}"/> = 
+                        </TextBlock>
+                        <TextBlock Grid.Column="2" Text="{Binding ElasticCoefficient}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                        <Button Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"
+                                ToolTip="See Table"/>
+                    </Grid>
+                    
+                    <!--Parent Row 12-->
+                    <Grid Grid.Row="11" Background="LightBlue">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="RightFourthCol"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Quality number-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Quality Number" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            Q<Run Text="v" Style="{StaticResource RunStyle_Normal}"/> = 
+                        </TextBlock>
+                        <ComboBox Grid.Row="0" Grid.Column="2" Style="{StaticResource DropdownStyle_Normal}"
+                                  ItemsSource="{Binding AvailableQualityNo}" SelectedItem="{Binding QualityNumber}"
+                                  cal:Message.Attach="[Event SelectionChanged] = [Action FindDynamicFactor]"/>
+
+                        <Button x:Name="ShowQualityNumbers" Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"
+                                ToolTip="See Graph"/>
+                        
+                        <!--Bending Geometry Factor - Pinion-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Bending Geometry Factor - Pinion:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            J<Run Text="P" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding PinionBGeometryFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button x:Name="ShowBendingGeometry" Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"
+                                ToolTip="See Graph"/>
+
+                        <!--Bending Geometry Factor - Gear-->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Bending Geometry Factor - Gear:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            J<Run Text="G" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding GearBGeometryFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button x:Name="ShowBendingGeometry2" Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"
+                                ToolTip="See Graph"/>
+
+
+                        <!--Pitting Geometry Factor-->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Pitting Geometry Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            I =
+                        </TextBlock>
+                        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding ContactGeometryFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button x:Name="ShowPittingGeometry" Grid.Row="3" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"
+                                ToolTip="See Graph"/>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+            
+            <!--Right Column-->
+            <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <Grid Grid.IsSharedSizeScope="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!--Right Parent Row 1-->
+                    <TextBlock Grid.Row="0" Text="Factors in Design Analysis:" Style="{StaticResource TxtBlkStyle_Header}"/>
+
+                    <Grid Grid.Row="1" Background="LightBlue">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Crowning-->
+                        <GroupBox Grid.Column="0" HorizontalAlignment="Center" Header="Crowning" Style="{StaticResource GroupboxStyle}">
+                            <GroupBox.ToolTip>
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal"  Width="450" Height="100">
+                                        <Image Width="100" Height="100">
+                                            <Image.Source>
+                                                C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\GearView\Images\Crowned Gears.jpg
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock FontSize="12" Margin="5, 0, 0, 0">
+                                        Gear crowning involves changing the chordal thickness of the<LineBreak/>
+                                        tooth along its axis. This modification eliminates end bearing <LineBreak/>
+                                        by offering a contact bearing in the center of the gear.<LineBreak/>
+                                        Crowing is a cost effective method to eliminates gear noise and<LineBreak/>
+                                        misalignments.
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox.ToolTip>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <RadioButton GroupName="IsCrowned" Content="Crowned" IsChecked="{Binding IsCrowned}"
+                                     FontSize="12" FontWeight="Normal" />
+                                <RadioButton GroupName="IsCrowned" IsChecked="True"  Content="Uncrowned"
+                                     FontSize="12" FontWeight="Normal" />
+                            </StackPanel>
+                        </GroupBox>
+                        
+                        <!--Extra Adjustment-->
+                        <GroupBox Grid.Column="1" HorizontalAlignment="Center" Header="Extra Adjustment" Style="{StaticResource GroupboxStyle}">
+                            <GroupBox.ToolTip>
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal" Width="450" Height="120">
+                                        <Image Width="100" Height="120">
+                                            <Image.Source>
+                                                C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\GearView\Images\Lapped Gears.jpg
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock FontSize="12" Margin="5, 0, 0, 0">
+                                            Gear lapping is a process that uses a specialized lapping<LineBreak/> 
+                                            tool and plate to slowly chip away at an unfinished gear.<LineBreak/>
+                                            The lapping tool is shaped similarly to the finished gear,<LineBreak/>
+                                            and rotates alongside the unfinished plate with an abrasive<LineBreak/>
+                                            material cutting away at the gear as it does so. <LineBreak/>
+                                            This process is often applied to hardened gears that need<LineBreak/>
+                                            to run silently.
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox.ToolTip>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <RadioButton  GroupName="IsLapped" IsChecked="{Binding IsLapped}" Content="Adjusted, lapped or both"
+                                     FontSize="12" FontWeight="Normal" />
+                                <RadioButton GroupName="IsLapped" IsChecked="True" Content="All other conditions"
+                                      FontSize="12" FontWeight="Normal" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <!--Mounting Position-->
+                        <GroupBox Grid.Column="2" HorizontalAlignment="Center" Header="Mounting Position" Style="{StaticResource GroupboxStyle}">
+                            <GroupBox.ToolTip>
+                                <Grid>
+                                    <Image>
+                                        <Image.Source>
+                                            C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\GearView\Images\Pulley mounting factor.PNG
+                                        </Image.Source>
+                                    </Image>
+                                </Grid>
+                            </GroupBox.ToolTip>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <RadioButton  GroupName="IsCentered"  IsChecked="{Binding IsCentered}"  FontSize="12" FontWeight="Normal" >
+                                    <RadioButton.Content>
+                                        <TextBlock>
+                                            S<Run Text="1" Style="{StaticResource RunStyle_Normal}"/> / S &lt; 0.175
+                                        </TextBlock>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                                <RadioButton  GroupName="IsCentered"  FontSize="12" FontWeight="Normal">
+                                    <RadioButton.Content>
+                                        <TextBlock>
+                                            S<Run Text="1" Style="{StaticResource RunStyle_Normal}"/> / S &gt;= 0.175
+                                        </TextBlock>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                            </StackPanel>
+                        </GroupBox>
+                        
+                        <!--Manufacturing Accuracy-->
+                        <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Header="Manufacturing Accuracy" Style="{StaticResource GroupboxStyle}">
+                            <!--<GroupBox.ToolTip>
+                                
+                            </GroupBox.ToolTip>-->
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Grid.Column="0" GroupName="Accuracy" IsChecked="{Binding IsOpen}" Content="Open gearing"
+                                     FontSize="12" FontWeight="Normal" Margin="5,0" />
+                                <RadioButton Grid.Column="1" GroupName="Accuracy" IsChecked="{Binding IsCommercial}" Content="Commercial quality"
+                                      FontSize="12" FontWeight="Normal" Margin="5,0" />
+                                <RadioButton Grid.Column="2" GroupName="Accuracy" IsChecked="{Binding IsPrecision}"  Content="Precision"
+                                      FontSize="12" FontWeight="Normal" Margin="5,0" />
+                                <RadioButton Grid.Column="3" GroupName="Accuracy" IsChecked="{Binding IsExtraPrecision}" Content="Extra-precision "
+                                      FontSize="12" FontWeight="Normal" Margin="5,0" />
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    
+                    <!--Right Parent Row 3-->
+                    <Grid Grid.Row="2" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action CalcAlignmentFactor]">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LeftFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Pinion Proportion Factor-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Pinion Proportion Factor,"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            C<Run Text="pf" Style="{StaticResource RunStyle_Normal}"/> = 
+                        </TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PinionPropFactor}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                        <!--Mesh Alignment Factor-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Mesh Alignment Factor,"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            C<Run Text="ma" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding MeshAlignFactor}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                        <!--Alignment Factor-->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Alignment Factor," ToolTip="Load Distribution Factor"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            K<Run Text="m" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding AlignmentFactor}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>
+                    
+                    <!--Right Parent Row 4-->
+                    <Grid Grid.Row="3" Background="LightBlue">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LeftFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Overload Factor-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Overload Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            K<Run Text="O" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding OverloadFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button x:Name="ShowOverloadFactors" Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+
+                        <!--Size Factor-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Size Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            K<Run Text="s" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SizeFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+
+                        <!--Pinion Rim Thickness Factor-->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Pinion Rim Thickness Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            K<Run Text="BP" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PinionRimFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+                        <!--Gear Rim Thickness Factor-->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Gear Rim Thickness Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            K<Run Text="BG" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding GearRimFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="3" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+                        <!--Hardness Ratio Factor-->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Hardness Ratio Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            C<Run Text="H" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding HardnessRatioFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="4" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+                        <!--Temperature Factor-->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Temperature Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            K<Run Text="T" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding TemperatureFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="5" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                    </Grid>
+                    
+                    <!--Right Parent Row 5-->
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LeftFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Dynamic Factor-->
+                        <TextBlock Grid.Column="0" Text="Dynamic Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            K<Run Text="O" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Column="2" Text="{Binding DynamicFactor}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                        <Button Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                    </Grid>
+                    
+                    <!--Left Parent Row 6-->
+                    <Grid Grid.Row="5" Background="LightBlue">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LeftFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Service Factor-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Service Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            S<Run Text="F" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ServiceFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+                        <!--Reliability Factor-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Reliability Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            K<Run Text="R" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ReliabilityFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+                        <!--Design Life-->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Design Life:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            L =
+                        </TextBlock>
+                        <Grid Grid.Row="2" Grid.Column="2">
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding DesignLife}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                            <TextBlock x:Name="PowerUnit" Grid.Column="1" Text="hours" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                        </Grid>
+                        <Button Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                    </Grid>
+                    
+                    <!--Right Parent Row 7-->
+                    <Grid Grid.Row="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LeftFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Pinion: No. of Load Cycles-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Pinion - No. of Load Cycles:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            N<Run Text="P" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PinionNoOfLoadCycles}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                        <!--Gear - No. of Load Cycles-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Gear - No. of Load Cycles:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            N<Run Text="G" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding GearNoOfLoadCycles}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>
+                    
+                    <!--Right Parent Row 8-->
+                    <Grid Grid.Row="7" Background="LightBlue">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LeftFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--Pinion Bending Stress Cycle Factor-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Pinion - Bending Stress Cycle Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            Y<Run Text="NP" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PBStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+                        <!--Gear Bending Stress Cycle Factor-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Gear - Bending Stress Cycle Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            Y<Run Text="NG" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding GBStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+                        <!--Pinion Pitting Stress Cycle Factor-->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Pinion - Pitting Stress Cycle Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            Z<Run Text="NP" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PPStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+
+                        <!--Gear Pitting Stress Cycle Factor-->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Gear - Pitting Stress Cycle Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                            Z<Run Text="NG" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding GPStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <Button Grid.Row="3" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                    </Grid>
+                    
+                    <!--Left Parent Row 9-->
+                    <Grid Grid.Row="8">
+                        <TextBlock Text="Stress Analysis: Bending" Style="{StaticResource TxtBlkStyle_Header}"/>
+                    </Grid>
+
+                    <!--Left Parent Row 10-->
+                    <Grid Grid.Row="9">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LeftFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Stress Analysis:Pinion Bending  - Required-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Pinion - Required:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                                S<Run Text="at" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PinionBendingStress}" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="psi" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                        <!--Stress Analysis:Pinion Bending  - Required-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Gear - Required:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                                S<Run Text="at" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding GearBendingStress}" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="psi" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>
+
+                    <!--Left Parent Row 11-->
+                    <Grid Grid.Row="10">
+                        <TextBlock Text="Stress Analysis: Pitting" Style="{StaticResource TxtBlkStyle_Header}"/>
+                    </Grid>
+
+                    <!--Left Parent Row 12-->
+                    <Grid Grid.Row="11">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="LeftFirstCol"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Stress Analysis:Pinion Pitting  - Required-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Pinion - Required:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                                S<Run Text="ac" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PinionPittingStress}" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="psi" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                        <!--Stress Analysis:Pinion Pitting  - Required-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Gear - Required:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                                S<Run Text="ac" Style="{StaticResource RunStyle_Normal}"/> =
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding GearPittingStress}" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="psi" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>
+                    
+                    <!--Left Parent Row 13-->
+                    <Grid Grid.Row="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Specify materials, alloy and heat treatment for most severe requirement"
+                                   TextAlignment="Left" Style="{StaticResource TxtBlkStyle_Header}"/>
+                        <TextBlock Grid.Row="1" Text="One possible material specification:" Style="{StaticResource TxtBlkStyle_Header}"
+                                   TextAlignment="Left"/>
+                    </Grid>
+
+                    <Grid Grid.Row="13">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!--Pinion material specification-->
+                        <TextBlock Grid.Row="0" Text="" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <!--Gear Material specification-->
+                        <TextBlock Grid.Row="1" Text="" Style="{StaticResource TxtBlkStyle_Param}"/>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Window>

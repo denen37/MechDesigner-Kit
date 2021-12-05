@@ -1,0 +1,92 @@
+﻿<Window x:Class="ParentWindow.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ParentWindow.Views"
+        mc:Ignorable="d"
+        Title="MechDesigner Kit" Height="450" Width="800">
+    <!--Parent grid-->
+    <Grid>
+        <!--Split parent grid into 2 rows-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--First row contains the menu bar-->
+        <DockPanel Grid.Row="0">
+            <Menu x:Name="mainMenu" DockPanel.Dock="Top">
+                <!--File-->
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New"/>
+                    <MenuItem Header="_Open"/>
+                    <MenuItem Header="_Save"/>
+                    <MenuItem Header="_Print"/>
+                    <Separator/>
+                    <MenuItem Header="_Close"/>
+                </MenuItem>
+                <!--View-->
+                <MenuItem Header="_View"></MenuItem>
+                <!--Settings-->
+                <MenuItem Header="_Settings">
+                    <MenuItem Header="_Units">
+                        <RadioButton x:Name="metricButton" IsChecked="True" Content="Metric Units" />
+                        <RadioButton x:Name="englishButton"  Content="English Units" />
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <!--Split row 2 into 3 columns-->
+        <Grid Grid.Row="1" x:Name="PropertiesWindow">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="1" Width="5" Background="DeepSkyBlue" Visibility="Visible"/>
+
+            <!--The first column contains the vertical tool bar-->
+            <DockPanel Grid.Column="0">
+                <ToolBarTray x:Name="elementsToolbar" Orientation="Vertical">
+                    <ToolBar>
+                        <Button x:Name="LoadBeltWindow" ToolTip="Belts">
+                            <Button.Content>
+                                <Image Source="C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Belt Icon mod.png" Width="48"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="gearButton" ToolTip="Gears" >
+                            <Button.Content>
+                                <Image Source="C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Gear Icon.png" Width="48" Height="48"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="shaftButton" ToolTip="Shafts">
+                            <Button.Content>
+                                <Image Source="C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Shaft Icon.png" Width="48"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="materialButton" ToolTip="Engineering Materials">
+                            <Button.Content>
+                                <Image Source="C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Material Icon.png" Width="50"/>
+                            </Button.Content>
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+                <TextBlock Height="0" Margin="0,83.04,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="3"/>
+            </DockPanel>
+
+            <!--The 2nd Column contains the canvas and ruler-->
+           
+                <Image Grid.Column="1">
+                    <Image.Source>
+                        C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Belt 2D Image.png
+                    </Image.Source>
+                </Image>
+            
+
+            <!--Third Column contains the properties-->
+            <ContentControl Grid.Column="2" Name="ActiveItem"/>
+
+        </Grid>
+    </Grid>
+</Window>
