@@ -56,6 +56,11 @@ namespace GearWindow.ViewModels
             }
         }
 
+        public void ShowDesignLife()
+        {
+            LoadApplication();
+        }
+
 
         public string Application
         {
@@ -599,10 +604,10 @@ namespace GearWindow.ViewModels
             set { gearDrive.TemperatureFactor = value; }
         }
 
-        public double ServiceFactor
+        public double SafetyFactor
         {
-            get { return gearDrive.ServiceFactor; }
-            set { gearDrive.ServiceFactor = value; }
+            get { return gearDrive.SafetyFactor; }
+            set { gearDrive.SafetyFactor = value; }
         }
 
         public double ReliabilityFactor
@@ -611,6 +616,12 @@ namespace GearWindow.ViewModels
             set { gearDrive.ReliabilityFactor = value; }
         }
 
+        public void ShowReliabilityFactors()
+        {
+            ReliabilityFactorViewModel viewModel = _container.GetInstance<ReliabilityFactorViewModel>();
+            ActivateItemAsync(viewModel);
+            _manager.ShowWindowAsync(viewModel);
+        }
         public double PinionNoOfLoadCycles
         {
             get { return gearDrive.pinion.LoadCycles; }
@@ -629,12 +640,23 @@ namespace GearWindow.ViewModels
             set { gearDrive.pinion.BendingStressCycleFactor = value; }
         }
 
+        public void ShowBendingStressCycle()
+        {
+            BendingStressCycleViewModel viewModel = _container.GetInstance<BendingStressCycleViewModel>();
+            ActivateItemAsync(viewModel);
+            _manager.ShowWindowAsync(viewModel);
+        }
+
         public double GBStressCycleFactor
         {
             get { return gearDrive.gear.BendingStressCycleFactor; }
             set { gearDrive.gear.BendingStressCycleFactor = value; }
         }
 
+        public void ShowBendingStressCycle2()
+        {
+            ShowBendingStressCycle();
+        }
         public double PPStressCycleFactor
         {
             get { return gearDrive.pinion.PittingStressCycleFactor; }
@@ -665,10 +687,22 @@ namespace GearWindow.ViewModels
             set { gearDrive.pinion.ContactStress = value; }
         }
 
+        public void ShowContactStressCycleFactor()
+        {
+            ContactStressCycleViewModel viewModel = _container.GetInstance<ContactStressCycleViewModel>();
+            ActivateItemAsync(viewModel);
+            _manager.ShowWindowAsync(viewModel);
+        }
+
         public double GearPittingStress
         {
             get { return gearDrive.gear.ContactStress; }
             set { gearDrive.gear.ContactStress = value; }
+        }
+
+        public void ShowContactStressCycleFactor2()
+        {
+            ShowContactStressCycleFactor();
         }
 
 

@@ -733,12 +733,19 @@
 
                         <!--Temperature Factor-->
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="Temperature Factor:"
-                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                                   Style="{StaticResource TxtBlkStyle_Param}">
+                            <TextBlock.ToolTip>
+                                <TextBlock TextAlignment="Left">
+                                    Use 1 if temperature is less or equal to 120<Run Text="o" FontSize="10" BaselineAlignment="Superscript"/>C. For temperatures <LineBreak/>
+                                    more than 120<Run Text="o" FontSize="10" BaselineAlignment="Superscript"/>C use a value greater than 1.
+                                </TextBlock>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
                         <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                             K<Run Text="T" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding TemperatureFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
-                        <Button Grid.Row="5" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <!--<Button Grid.Row="5" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>-->
                     </Grid>
                     
                     <!--Right Parent Row 5-->
@@ -757,7 +764,7 @@
                             K<Run Text="O" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBlock Grid.Column="2" Text="{Binding DynamicFactor}" Style="{StaticResource TxtBlkStyle_Unit}"/>
-                        <Button Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <!--<Button Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>-->
                     </Grid>
                     
                     <!--Left Parent Row 6-->
@@ -774,14 +781,14 @@
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--Service Factor-->
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Service Factor:"
-                                   Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <!--Safety Factor-->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Safety Factor:"
+                                   Style="{StaticResource TxtBlkStyle_Param}" ToolTip="Recommended: Between 1.0 - 1.5"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                             S<Run Text="F" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
-                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ServiceFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
-                        <Button Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SafetyFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <!--<Button Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>-->
 
                         <!--Reliability Factor-->
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Reliability Factor:"
@@ -790,7 +797,7 @@
                             K<Run Text="R" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ReliabilityFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
-                        <Button Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <Button x:Name="ShowReliabilityFactors" Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
 
                         <!--Design Life-->
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Design Life:"
@@ -804,9 +811,9 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBox Grid.Column="0" Text="{Binding DesignLife}" Style="{StaticResource TxtBoxStyle_Normal}"/>
-                            <TextBlock x:Name="PowerUnit" Grid.Column="1" Text="hours" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                            <TextBlock Grid.Column="1" Text="hours" Style="{StaticResource TxtBlkStyle_Unit}"/>
                         </Grid>
-                        <Button Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <Button x:Name="ShowDesignLife" Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
                     </Grid>
                     
                     <!--Right Parent Row 7-->
@@ -860,7 +867,7 @@
                             Y<Run Text="NP" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PBStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
-                        <Button Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <Button x:Name="ShowBendingStressCycle" Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
 
                         <!--Gear Bending Stress Cycle Factor-->
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Gear - Bending Stress Cycle Factor:"
@@ -869,7 +876,7 @@
                             Y<Run Text="NG" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding GBStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
-                        <Button Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <Button x:Name="ShowBendingStressCycle2" Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
 
                         <!--Pinion Pitting Stress Cycle Factor-->
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Pinion - Pitting Stress Cycle Factor:"
@@ -878,7 +885,7 @@
                             Z<Run Text="NP" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PPStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
-                        <Button Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <Button x:Name="ShowContactStressCycleFactor" Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
 
                         <!--Gear Pitting Stress Cycle Factor-->
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Gear - Pitting Stress Cycle Factor:"
@@ -887,7 +894,7 @@
                             Z<Run Text="NG" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding GPStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
-                        <Button Grid.Row="3" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
+                        <Button x:Name="ShowContactStressCycleFactor2" Grid.Row="3" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
                     </Grid>
                     
                     <!--Left Parent Row 9-->
