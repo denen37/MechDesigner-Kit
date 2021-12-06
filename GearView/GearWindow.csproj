@@ -82,6 +82,8 @@
     <Compile Include="ViewModels\ContactGeometryViewModel.cs" />
     <Compile Include="ViewModels\GearViewModel.cs" />
     <Compile Include="ViewModels\OverloadFactorViewModel.cs" />
+    <Compile Include="ViewModels\RimThicknessViewModel.cs" />
+    <Compile Include="ViewModels\SizeFactorViewModel.cs" />
     <Compile Include="Views\BendingGeometryView.xaml.cs">
       <DependentUpon>BendingGeometryView.xaml</DependentUpon>
     </Compile>
@@ -93,6 +95,12 @@
     </Compile>
     <Compile Include="Views\QualityNoView.xaml.cs">
       <DependentUpon>QualityNoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RimThicknessView.xaml.cs">
+      <DependentUpon>RimThicknessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SizeFactorView.xaml.cs">
+      <DependentUpon>SizeFactorView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +178,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RimThicknessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SizeFactorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Quality Numbers.PNG" />
@@ -194,6 +210,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\OverloadFactor.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SizeFactor.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rim Thickness Factor.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

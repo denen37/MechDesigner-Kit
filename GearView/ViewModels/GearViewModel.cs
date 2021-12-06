@@ -546,6 +546,12 @@ namespace GearWindow.ViewModels
             set { gearDrive.SizeFactor = value; }
         }
 
+        public void ShowSizeFactors()
+        {
+            SizeFactorViewModel viewModel = _container.GetInstance<SizeFactorViewModel>();
+            ActivateItemAsync(viewModel);
+            _manager.ShowWindowAsync(viewModel);
+        }
         public double OverloadFactor
         {
             get { return gearDrive.OverLoadFactor; }
@@ -564,6 +570,17 @@ namespace GearWindow.ViewModels
             set { gearDrive.pinion.RimThicknessFactor = value; }
         }
 
+        public void ShowRimThicknessFactor()
+        {
+            RimThicknessViewModel viewModel = _container.GetInstance<RimThicknessViewModel>();
+            ActivateItemAsync(viewModel);
+            _manager.ShowWindowAsync(viewModel);
+        }
+
+        public void ShowRimThicknessFactor2()
+        {
+            ShowRimThicknessFactor();
+        }
         public double GearRimFactor
         {
             get { return gearDrive.gear.RimThicknessFactor; }
