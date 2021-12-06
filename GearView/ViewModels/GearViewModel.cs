@@ -359,6 +359,14 @@ namespace GearWindow.ViewModels
             set { gearDrive.QualityNumber = ConvertToInt(value); }
         }
 
+        public void ShowQualityNumbers()
+        {
+            QualityNoViewModel qualityNo = _container.GetInstance<QualityNoViewModel>();
+            ActivateItemAsync(qualityNo);
+            _manager.ShowWindowAsync(qualityNo);
+        }
+
+
         public int ConvertToInt(string quality)
         {
             string No = quality.Remove(0, 1);
@@ -398,6 +406,13 @@ namespace GearWindow.ViewModels
             }
         }
 
+        public void ShowBendingGeometry()
+        {
+            BendingGeometryViewModel viewModel = _container.GetInstance<BendingGeometryViewModel>();
+            ActivateItemAsync(viewModel);
+            _manager.ShowWindowAsync(viewModel);
+        }
+
         public double GearBGeometryFactor
         {
             get { return gearDrive.gear.BendingStressGeometryFactor; }
@@ -406,6 +421,11 @@ namespace GearWindow.ViewModels
                 gearDrive.gear.BendingStressGeometryFactor = value;
                 NotifyOfPropertyChange(() => PinionBGeometryFactor);
             }
+        }
+
+        public void ShowBendingGeometry2()
+        {
+            ShowBendingGeometry();
         }
 
         public double ContactGeometryFactor
@@ -418,6 +438,12 @@ namespace GearWindow.ViewModels
             }
         }
 
+        public void ShowPittingGeometry()
+        {
+            ContactGeometryViewModel viewModel = _container.GetInstance<ContactGeometryViewModel>();
+            ActivateItemAsync(viewModel);
+            _manager.ShowWindowAsync(viewModel);
+        }
         public bool IsCrowned
         {
             get { return gearDrive.IsCrowned; }
