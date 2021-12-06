@@ -568,6 +568,60 @@ namespace GearWindow.ViewModels
             set { gearDrive.pinion.LoadCycles = value; }
         }
 
+        public double GearNoOfLoadCycles
+        {
+            get { return gearDrive.gear.LoadCycles; }
+            set { gearDrive.gear.LoadCycles = value; }
+        }
+
+        public double PBStressCycleFactor
+        {
+            get { return gearDrive.pinion.BendingStressCycleFactor; }
+            set { gearDrive.pinion.BendingStressCycleFactor = value; }
+        }
+
+        public double GBStressCycleFactor
+        {
+            get { return gearDrive.gear.BendingStressCycleFactor; }
+            set { gearDrive.gear.BendingStressCycleFactor = value; }
+        }
+
+        public double PPStressCycleFactor
+        {
+            get { return gearDrive.pinion.PittingStressCycleFactor; }
+            set { gearDrive.pinion.PittingStressCycleFactor = value; }
+        }
+
+        public double GPStressCycleFactor
+        {
+            get { return gearDrive.gear.PittingStressCycleFactor; }
+            set { gearDrive.gear.PittingStressCycleFactor = value; }
+        }
+
+        public double PinionBendingStress
+        {
+            get { return gearDrive.pinion.BendingStress; }
+            set { gearDrive.pinion.BendingStress = value; }
+        }
+
+        public double GearBendingStress
+        {
+            get { return gearDrive.gear.BendingStress; }
+            set { gearDrive.gear.BendingStress = value; }
+        }
+
+        public double PinionPittingStress
+        {
+            get { return gearDrive.pinion.ContactStress; }
+            set { gearDrive.pinion.ContactStress = value; }
+        }
+
+        public double GearPittingStress
+        {
+            get { return gearDrive.gear.ContactStress; }
+            set { gearDrive.gear.ContactStress = value; }
+        }
+
 
         public string PowerUnit
         {
