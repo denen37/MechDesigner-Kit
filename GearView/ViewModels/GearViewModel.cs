@@ -506,13 +506,69 @@ namespace GearWindow.ViewModels
         {
             get { return gearDrive.LoadDistributionFactor; }
         }
-        
+
         public void CalcAlignmentFactor()
         {
             NotifyOfPropertyChange(() => PinionPropFactor);
             NotifyOfPropertyChange(() => MeshAlignFactor);
             NotifyOfPropertyChange(() => AlignmentFactor);
         }
+
+        public double SizeFactor
+        {
+            get { return gearDrive.SizeFactor; }
+            set { gearDrive.SizeFactor = value; }
+        }
+
+        public double OverloadFactor
+        {
+            get { return gearDrive.OverLoadFactor; }
+            set { gearDrive.OverLoadFactor = value; }
+        }
+
+        public double PinionRimFactor
+        {
+            get { return gearDrive.pinion.RimThicknessFactor; }
+            set { gearDrive.pinion.RimThicknessFactor = value; }
+        }
+
+        public double GearRimFactor
+        {
+            get { return gearDrive.gear.RimThicknessFactor; }
+            set { gearDrive.gear.RimThicknessFactor = value; }
+        }
+
+        public double HardnessRatioFactor
+        {
+            get { return gearDrive.HardnessRatioFactor; }
+            set { gearDrive.HardnessRatioFactor = value; }
+        }
+
+        public int TemperatureFactor
+        {
+            get { return gearDrive.TemperatureFactor; }
+            set { gearDrive.TemperatureFactor = value; }
+        }
+
+        public double ServiceFactor
+        {
+            get { return gearDrive.ServiceFactor; }
+            set { gearDrive.ServiceFactor = value; }
+        }
+
+        public double ReliabilityFactor
+        {
+            get { return gearDrive.ReliabilityFactor; }
+            set { gearDrive.ReliabilityFactor = value; }
+        }
+
+        public double PinionNoOfLoadCycles
+        {
+            get { return gearDrive.pinion.LoadCycles; }
+            set { gearDrive.pinion.LoadCycles = value; }
+        }
+
+
         public string PowerUnit
         {
             get { return unit.PowerUnit; }
