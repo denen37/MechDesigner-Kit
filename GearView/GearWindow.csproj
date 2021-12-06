@@ -81,11 +81,15 @@
     <Compile Include="ViewModels\BendingGeometryViewModel.cs" />
     <Compile Include="ViewModels\ContactGeometryViewModel.cs" />
     <Compile Include="ViewModels\GearViewModel.cs" />
+    <Compile Include="ViewModels\OverloadFactorViewModel.cs" />
     <Compile Include="Views\BendingGeometryView.xaml.cs">
       <DependentUpon>BendingGeometryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ContactGeometryView.xaml.cs">
       <DependentUpon>ContactGeometryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OverloadFactorView.xaml.cs">
+      <DependentUpon>OverloadFactorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QualityNoView.xaml.cs">
       <DependentUpon>QualityNoView.xaml</DependentUpon>
@@ -158,6 +162,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\OverloadFactorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\QualityNoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,6 +191,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Lapped Gears.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OverloadFactor.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

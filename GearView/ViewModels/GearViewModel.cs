@@ -552,6 +552,12 @@ namespace GearWindow.ViewModels
             set { gearDrive.OverLoadFactor = value; }
         }
 
+        public void ShowOverloadFactors()
+        {
+            OverloadFactorViewModel viewModel = _container.GetInstance<OverloadFactorViewModel>();
+            ActivateItemAsync(viewModel);
+            _manager.ShowWindowAsync(viewModel);
+        }
         public double PinionRimFactor
         {
             get { return gearDrive.pinion.RimThicknessFactor; }
