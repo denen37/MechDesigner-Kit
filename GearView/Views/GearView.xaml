@@ -158,8 +158,22 @@
                         <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding SpeedUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
 
                         <!--Diametral Pitch-->
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Diametral Pitch:" Style="{StaticResource TxtBlkStyle_Param}"
-                                   ToolTip="Design Decision: Select a trial diametral pitch. See Fig 1"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Diametral Pitch:" Style="{StaticResource TxtBlkStyle_Param}">
+                            <TextBlock.ToolTip>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image>
+                                        <Image.Source>
+                                            C:\Users\AWAR ABRAHAM\Desktop\C# PDF\MechDesigner\MechDesigner-Kit\GearView\Images\DiametralPitch and ToothSize.PNG
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Margin="5, 0, 0, 0" TextAlignment="Left">
+                                        Design Decision:<LineBreak/>
+                                        a trial diametral pitch. See Fig 1
+                                    </TextBlock>
+                                </StackPanel>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                                   
                         <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                          P<Run Text="d" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
@@ -225,6 +239,8 @@
                         </Expander.Header>
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -300,6 +316,24 @@
                             <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding TransmittedLoad}" Style="{StaticResource TxtBlkStyle_Unit}"
                                        ToolTip="Tangential Force"/>
                             <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding ForceUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <!--Radial Force-->
+                            <TextBlock Grid.Row="7" Grid.Column="0" Text="Radial Force:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                            <TextBlock Grid.Row="7" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         F<Run Text="r" Style="{StaticResource RunStyle_Normal}"/> =
+                            </TextBlock>
+                            <TextBlock Grid.Row="7" Grid.Column="2" Text="{Binding RadialForce}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <TextBlock Grid.Row="7" Grid.Column="3" Text="{Binding ForceUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <!--Normal Force-->
+                            <TextBlock Grid.Row="8" Grid.Column="0" Text="Normal Force:" Style="{StaticResource TxtBlkStyle_Param}"/>
+                            <TextBlock Grid.Row="8" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
+                         F<Run Text="n" Style="{StaticResource RunStyle_Normal}"/> =
+                            </TextBlock>
+                            <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding NormalForce}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+
+                            <TextBlock Grid.Row="8" Grid.Column="3" Text="{Binding ForceUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
                         </Grid>
                     </Expander>
                     

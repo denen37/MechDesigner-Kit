@@ -250,5 +250,8 @@
   <ItemGroup>
     <Resource Include="Images\Contact Stress Cycle Factor 1.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DiametralPitch and ToothSize.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

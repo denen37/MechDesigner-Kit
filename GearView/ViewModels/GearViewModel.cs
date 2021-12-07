@@ -195,6 +195,8 @@ namespace GearWindow.ViewModels
         {
             ActualGearSpeed = GearCalculations.CalcOutputSpeed(gearDrive);
             GearCalculations.CalcTagentialForce(gearDrive);
+            GearCalculations.CalcNormalForce(gearDrive);
+            GearCalculations.CalcRadialForce(gearDrive);
 
             NotifyOfPropertyChange(() => GearRatio);
             NotifyOfPropertyChange(() => PinionPitchDiameter);
@@ -207,6 +209,8 @@ namespace GearWindow.ViewModels
             NotifyOfPropertyChange(() => MaxFaceWidth);
             NotifyOfPropertyChange(() => FaceWidth);
             NotifyOfPropertyChange(() => FaceWidthToPinionDiameter);
+            NotifyOfPropertyChange(() => NormalForce);
+            NotifyOfPropertyChange(() => RadialForce);
         }
 
         //Gear Ratio
@@ -243,6 +247,19 @@ namespace GearWindow.ViewModels
             get { return gearDrive.TangentialForce; }
             set { gearDrive.TangentialForce = value; }
         }
+
+        public double RadialForce
+        {
+            get { return gearDrive.RadialForce; }
+            set { gearDrive.RadialForce = value; }
+        }
+
+        public double NormalForce
+        {
+            get { return gearDrive.NormalForce; }
+            set { gearDrive.NormalForce = value; }
+        }
+
 
         public double MinFaceWidth
         {
