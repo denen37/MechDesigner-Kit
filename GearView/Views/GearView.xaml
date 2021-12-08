@@ -912,7 +912,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                             Y<Run Text="NP" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
-                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PBStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PBendingStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
                         <Button x:Name="ShowBendingStressCycle" Grid.Row="0" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
 
                         <!--Gear Bending Stress Cycle Factor-->
@@ -921,7 +921,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                             Y<Run Text="NG" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
-                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding GBStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding GBendingStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
                         <Button x:Name="ShowBendingStressCycle2" Grid.Row="1" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
 
                         <!--Pinion Pitting Stress Cycle Factor-->
@@ -930,7 +930,7 @@
                         <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                             Z<Run Text="NP" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
-                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PPStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PContactStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
                         <Button x:Name="ShowContactStressCycleFactor" Grid.Row="2" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
 
                         <!--Gear Pitting Stress Cycle Factor-->
@@ -939,7 +939,7 @@
                         <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                             Z<Run Text="NG" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
-                        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding GPStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding GContactStressCycleFactor}" Style="{StaticResource TxtBoxStyle_Normal}"/>
                         <Button x:Name="ShowContactStressCycleFactor2" Grid.Row="3" Grid.Column="3" Content="..." Style="{StaticResource BtnStyle_Info}"/>
                     </Grid>
                     

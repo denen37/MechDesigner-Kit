@@ -9,6 +9,7 @@ namespace GearWindow.Models
 {
     public static class GearCalculations
     {
+        private static int places = 2;
         public static double CalcNoGearTeeth(GearDrive drive)
         {
             double nG = drive.gear.AngVel;
@@ -17,13 +18,13 @@ namespace GearWindow.Models
 
             if (np > nG)
             {
-                drive.GearRatio = Round(np / nG, 2);
-                return Round((Np * np / nG), 2);
+                drive.GearRatio = Round(np / nG, places);
+                return Round((Np * np / nG), places);
             }
             else 
             {
-                drive.GearRatio = Round(nG / np, 2);
-                return Round((Np * nG / np), 2); 
+                drive.GearRatio = Round(nG / np, places);
+                return Round((Np * nG / np), places); 
             }
         }
 
@@ -35,15 +36,15 @@ namespace GearWindow.Models
             double angvel;
             if (NG > Np)
             {
-                drive.GearRatio = Round(NG / Np, 2);
+                drive.GearRatio = Round(NG / Np, places);
                 angvel = np * Np / NG;
-                return Round(angvel, 2);
+                return Round(angvel, places);
             }
             else
             {
-                drive.GearRatio = Round(Np / NG, 2);
+                drive.GearRatio = Round(Np / NG, places);
                 angvel = np * NG / Np;
-                return Round(angvel, 2);
+                return Round(angvel, places);
             }
         }
         public static void CalcTagentialForce(GearDrive drive)
@@ -60,7 +61,8 @@ namespace GearWindow.Models
             double w = drive.TangentialForce;
             double phi = drive.PressureAngle * (PI / 180);
 
-            drive.NormalForce = w / Cos(phi);
+            double Fn = w / Cos(phi);
+            drive.NormalForce = Round(Fn);
         }
 
         public static void CalcRadialForce(GearDrive drive)
@@ -68,7 +70,8 @@ namespace GearWindow.Models
             double w = drive.TangentialForce;
             double phi = drive.PressureAngle * (PI / 180);
 
-            drive.RadialForce = w * Tan(phi);
+            double Fr = w * Tan(phi);
+            drive.RadialForce = Round(Fr);
         }
 
         public static void CalcDynamicFactor(GearDrive drive)
@@ -84,26 +87,26 @@ namespace GearWindow.Models
             { C = 3.5637 + 3.9914*(1 - B); }
 
             double Kv = Pow((C / (C + Sqrt(Vt))), -B);
-            drive.DynamicFactor = Round(Kv, 2);
+            drive.DynamicFactor = Round(Kv, places);
 
             drive.MaxVelocity = Pow((C + (14 - Av)), 2);
         }
 
-        public static void CalcBendingStresses(GearDrive drive)
+        public static void CalcBendingStress(Gear gear)
         {
-            double Wt = drive.TangentialForce;
-            double Pd = drive.DiametralPitch;
-            double F = drive.FaceWidth;
-            double Jg = drive.gear.BendingStressGeometryFactor;
-            double Jp = drive.pinion.BendingStressGeometryFactor;
-            double Ko = drive.OverLoadFactor;
-            double Ks = drive.SizeFactor;
-            double Km = drive.LoadDistributionFactor;
-            double Kb = drive.pinion.RimThicknessFactor;
-            double Kv = drive.DynamicFactor;
+            double Wt = gear.Drive.TangentialForce;
+            double Pd = gear.Drive.DiametralPitch;
+            double F = gear.Drive.FaceWidth;
+            double Jg = gear.BendingStressGeometryFactor;
+            double Ko = gear.Drive.OverLoadFactor;
+            double Ks = gear.Drive.SizeFactor;
+            double Km = gear.Drive.LoadDistributionFactor;
+            double Kb = gear.RimThicknessFactor;
+            double Kv = gear.Drive.DynamicFactor;
 
-            drive.gear.BendingStress = (Wt * Pd / F * Jg) * Ko * Ks * Km * Kb * Kv;
-            drive.pinion.BendingStress = (Wt * Pd / F * Jp) * Ko * Ks * Km * Kb * Kv;
+            double Sg = (Wt * Pd / F * Jg) * Ko * Ks * Km * Kb * Kv;
+            gear.BendingStress = Round(Sg, places);
+            
         }
 
         public static void CalcBendingStressGeometryFactor (Gear gear)
@@ -113,7 +116,8 @@ namespace GearWindow.Models
             double Kf = gear.FatigueStressConcFactor;
             double MN = 1; // For Spur gears.
 
-            gear.BendingStressGeometryFactor = Y / Kf * MN;
+           double J = Y / Kf * MN;
+            gear.BendingStressGeometryFactor = Round(J, places);
         }
 
         public static void CalcFatigueStressConcFactor(Gear gear)
@@ -149,7 +153,8 @@ namespace GearWindow.Models
             double Phi = drive.PressureAngle * PI / 180;
             double Mn = 1; // load sharing factor for spur gears;
 
-            drive.ContactStressGeometryFactor = (Cos(Phi) * Sin(Phi) / 2 * Mn) * (Mg / (Mg + 1)); // External gears.
+            double I = (Cos(Phi) * Sin(Phi) / 2 * Mn) * (Mg / (Mg + 1)); // External gears.
+            drive.ContactStressGeometryFactor = Round(I, places);
 
         }
 
@@ -166,7 +171,8 @@ namespace GearWindow.Models
             double Kb = gear.Drive.pinion.RimThicknessFactor;
             double Kv = gear.Drive.DynamicFactor;
 
-            gear.ContactStress = Cp * Sqrt((Wt * Ko * Kb * Km * Ks * Kv) / (F * Pd * I));
+            double Sc = Cp * Sqrt((Wt * Ko * Kb * Km * Ks * Kv) / (F * Pd * I));
+            gear.ContactStress = Round(Sc, places);
         }
 
         public static void CalcBendingStrengthStressCycleFactor (Gear gear)
@@ -209,7 +215,7 @@ namespace GearWindow.Models
                 Yn = 1.3558 * Pow(L, -0.0178);
             }
 
-            gear.BendingStressCycleFactor = Yn;
+            gear.BendingStressCycleFactor = Round(Yn, places);
         }
 
         public static void CalcContactStrengthStressCycleFactor (Gear gear)
@@ -238,7 +244,7 @@ namespace GearWindow.Models
                 Zn = 1.4488 * Pow(Nc, -0.023);
             }
 
-            gear.PittingStressCycleFactor = Zn;
+            gear.PittingStressCycleFactor = Round(Zn, places);
         }
 
         public static void GetAllowableBendingStress(GearDrive drive)

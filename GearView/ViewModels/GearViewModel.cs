@@ -21,7 +21,7 @@ namespace GearWindow.ViewModels
             new BindableCollection<string> { "Steel", "Malleable Iron", "Nodular Iron", "Cast Iron", "Aluminium Bronze", "Tin Bronze" };
         private BindableCollection<string> availableQualityNo =
             new BindableCollection<string> { "A12", "A11", "A10", "A9", "A8", "A7", "A6", "A5", "A4", "A3", "A2", "A1" };
-
+        
         public GearViewModel(IWindowManager manager, IEventAggregator events, SimpleContainer container)
         {
             _manager = manager;
@@ -29,6 +29,63 @@ namespace GearWindow.ViewModels
             _events.SubscribeOnPublishedThread(this);
             _container = container;
             gearDrive = new GearDrive();
+            gearDrive.NoOfLoadCyclesChanged += GearDrive_NoOfLoadCyclesChanged;
+            gearDrive.pinion.AngVelChanged += Pinion_AngVelChanged;
+            gearDrive.gear.AngVelChanged += Gear_AngVelChanged;
+            gearDrive.pinion.CanCalcStressCycleFactors += Pinion_CanCalcStressCycleFactors;
+            gearDrive.gear.CanCalcStressCycleFactors += Gear_CanCalcStressCycleFactors;
+            gearDrive.pinion.CanCalcStressNumbers += Pinion_CanCalcStressNumbers;
+            gearDrive.gear.CanCalcStressNumbers += Gear_CanCalcStressNumbers;
+        }
+
+        private void Gear_CanCalcStressNumbers(object sender, double e)
+        {
+            GearCalculations.CalcBendingStress(gearDrive.gear);
+            GearCalculations.CalcContactStress(gearDrive.gear);
+
+            NotifyOfPropertyChange(() => GearBendingStress);
+            NotifyOfPropertyChange(() => GearPittingStress);
+        }
+
+        private void Pinion_CanCalcStressNumbers(object sender, double e)
+        {
+            GearCalculations.CalcBendingStress(gearDrive.pinion);
+            GearCalculations.CalcContactStress(gearDrive.pinion);
+
+            NotifyOfPropertyChange(() => PinionBendingStress);
+            NotifyOfPropertyChange(() => PinionPittingStress);
+        }
+
+        private void Gear_CanCalcStressCycleFactors(object sender, double e)
+        {
+            GearCalculations.CalcBendingStrengthStressCycleFactor(gearDrive.gear);
+            GearCalculations.CalcContactStrengthStressCycleFactor(gearDrive.gear);
+            NotifyOfPropertyChange(() => GBendingStressCycleFactor);
+            NotifyOfPropertyChange(() => GContactStressCycleFactor);
+        }
+
+        private void Pinion_CanCalcStressCycleFactors(object sender, double e)
+        {
+            GearCalculations.CalcBendingStrengthStressCycleFactor(gearDrive.pinion);
+            GearCalculations.CalcContactStrengthStressCycleFactor(gearDrive.pinion);
+            NotifyOfPropertyChange(() => PBendingStressCycleFactor);
+            NotifyOfPropertyChange(() => PContactStressCycleFactor);
+        }
+
+        private void Gear_AngVelChanged(object sender, double e)
+        {
+            NotifyOfPropertyChange(() => GearNoOfLoadCycles);
+        }
+
+        private void Pinion_AngVelChanged(object sender, double e)
+        {
+            NotifyOfPropertyChange(() => PinionNoOfLoadCycles);
+        }
+
+        private void GearDrive_NoOfLoadCyclesChanged(object sender, double e)
+        {
+            NotifyOfPropertyChange(() => PinionNoOfLoadCycles);
+            NotifyOfPropertyChange(() => GearNoOfLoadCycles);
         }
 
         public Task HandleAsync(Applications message, CancellationToken cancellationToken)
@@ -651,13 +708,13 @@ namespace GearWindow.ViewModels
             //set { gearDrive.pinion.LoadCycles = value; }
         }
 
-        public double GearNoOfLoadCycles
+        public string GearNoOfLoadCycles
         {
-            get { return gearDrive.gear.LoadCycles; }
-            set { gearDrive.gear.LoadCycles = value; }
+            get { return gearDrive.gear.LoadCyclesToPower; }
+            //set { gearDrive.gear.LoadCycles = value; }
         }
 
-        public double PBStressCycleFactor
+        public double PBendingStressCycleFactor
         {
             get { return gearDrive.pinion.BendingStressCycleFactor; }
             set { gearDrive.pinion.BendingStressCycleFactor = value; }
@@ -670,7 +727,7 @@ namespace GearWindow.ViewModels
             _manager.ShowWindowAsync(viewModel);
         }
 
-        public double GBStressCycleFactor
+        public double GBendingStressCycleFactor
         {
             get { return gearDrive.gear.BendingStressCycleFactor; }
             set { gearDrive.gear.BendingStressCycleFactor = value; }
@@ -680,13 +737,13 @@ namespace GearWindow.ViewModels
         {
             ShowBendingStressCycle();
         }
-        public double PPStressCycleFactor
+        public double PContactStressCycleFactor
         {
             get { return gearDrive.pinion.PittingStressCycleFactor; }
             set { gearDrive.pinion.PittingStressCycleFactor = value; }
         }
 
-        public double GPStressCycleFactor
+        public double GContactStressCycleFactor
         {
             get { return gearDrive.gear.PittingStressCycleFactor; }
             set { gearDrive.gear.PittingStressCycleFactor = value; }

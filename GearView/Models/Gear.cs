@@ -22,9 +22,14 @@ namespace GearWindow.Models
         private double _fatigueStressConcFactor;
         private double _rimThicknessFactor = 1;
         private double _backupRatio;
-        private double _bendingStressCycle;
+        private double _bendingStressCycle = 1;
         private double _pittingStressCycle;
         private double _contactStress;
+        private double _angVel;
+
+        public event EventHandler<double> AngVelChanged;
+        public event EventHandler<double> CanCalcStressCycleFactors;
+        public event EventHandler<double> CanCalcStressNumbers;
         public Gear() { }
        
         public Gear(GearDrive drive)
@@ -48,7 +53,21 @@ namespace GearWindow.Models
             set { _toothCount = value; }
         }
 
-        public double AngVel { get; set; }
+        public double AngVel 
+        {
+            get
+            {
+                return _angVel;
+            }
+            set
+            {
+                _angVel = value;
+                if (Drive.DesignLife != 0)
+                {
+                    AngVelChanged?.Invoke(this, _angVel);
+                }
+            }
+        }
 
         public double PitchDiameter
         {
@@ -118,7 +137,7 @@ namespace GearWindow.Models
         public string LoadCyclesToPower
         {
             get
-            {
+           {
                 string loadCycle = null;
                 int pow = 0;
                 
@@ -128,10 +147,12 @@ namespace GearWindow.Models
                     string[] words = word.Split('.');
                     pow = words[0].Length - 1;
 
-                    double coeff = Math.Round(LoadCycles / (10 * pow), 2);
+                    double coeff = Math.Round(LoadCycles / (Math.Pow(10, pow)), 2);
 
-                    loadCycle = $"{coeff} X 10{pow.ToSuperscriptNumber()}";
+                    loadCycle = $"{coeff} X 10{pow.ToSuperscriptNumber()} Cycles";
                 }
+
+                CanCalcStressCycleFactors.Invoke(this, _loadCycles);
 
                 return loadCycle;
             }
@@ -195,7 +216,11 @@ namespace GearWindow.Models
         public double BendingStressCycleFactor
         {
             get { return _bendingStressCycle; }
-            set { _bendingStressCycle = value; }
+            set 
+            {
+                _bendingStressCycle = value;
+                CanCalcStressNumbers?.Invoke(this, _bendingStressCycle);
+            }
         }
 
         public double PittingStressCycleFactor

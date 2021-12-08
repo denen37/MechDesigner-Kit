@@ -63,13 +63,15 @@ namespace GearWindow.Models
         private int _qualityNumber;
         private double _safetyFactor = 1;
         private double _designLife;
-        private HardnessMethod _hardnessType;
+        private HardnessMethod _hardnessType = HardnessMethod.Case_carburized;
         private double _allowableContactStress;
         private double _allowableBendingStress;
         private double _filletRaduis;
         private double _hardnessRatio = 1;
         private int _temperature = 1;
         private int alignmentFactorsRequest = 0;
+
+        public event EventHandler<double> NoOfLoadCyclesChanged;
 
 
         //private readonly GearDrive drive = this;
@@ -579,7 +581,15 @@ namespace GearWindow.Models
         public double DesignLife
         {
             get { return _designLife; }
-            set { _designLife = value; }
+            set 
+            { 
+                _designLife = value;
+
+                if (pinion.AngVel != 0)
+                {
+                    NoOfLoadCyclesChanged?.Invoke(this, _designLife);
+                }
+            }
         }
 
         public HardnessMethod HardnessType
