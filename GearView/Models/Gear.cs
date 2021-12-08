@@ -79,7 +79,7 @@ namespace GearWindow.Models
             set { _rootDiameter = value; }
         }
 
-        public int numOfLoadAppPerRev { get; set; }
+        public int numOfLoadAppPerRev { get; set; } = 1;
 
         public double Torque
         {
@@ -115,6 +115,27 @@ namespace GearWindow.Models
             set { _loadCycles = value; }
         }
 
+        public string LoadCyclesToPower
+        {
+            get
+            {
+                string loadCycle = null;
+                int pow = 0;
+                
+                if (LoadCycles != 0 )
+                {
+                    string word = LoadCycles.ToString();
+                    string[] words = word.Split('.');
+                    pow = words[0].Length - 1;
+
+                    double coeff = Math.Round(LoadCycles / (10 * pow), 2);
+
+                    loadCycle = $"{coeff} X 10{pow.ToSuperscriptNumber()}";
+                }
+
+                return loadCycle;
+            }
+        }
         public double AdjustedContactStress
         {
             get { return _adjustedContactStress; }

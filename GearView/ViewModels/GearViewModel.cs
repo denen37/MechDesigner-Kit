@@ -645,10 +645,10 @@ namespace GearWindow.ViewModels
             ActivateItemAsync(viewModel);
             _manager.ShowWindowAsync(viewModel);
         }
-        public double PinionNoOfLoadCycles
+        public string PinionNoOfLoadCycles
         {
-            get { return gearDrive.pinion.LoadCycles; }
-            set { gearDrive.pinion.LoadCycles = value; }
+            get { return gearDrive.pinion.LoadCyclesToPower; }
+            //set { gearDrive.pinion.LoadCycles = value; }
         }
 
         public double GearNoOfLoadCycles

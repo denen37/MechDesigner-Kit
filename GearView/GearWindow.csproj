@@ -78,6 +78,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\OverloadFactors.cs" />
+    <Compile Include="Models\Superscript.cs" />
     <Compile Include="ViewModels\BendingGeometryViewModel.cs" />
     <Compile Include="ViewModels\BendingStressCycleViewModel.cs" />
     <Compile Include="ViewModels\ContactGeometryViewModel.cs" />
