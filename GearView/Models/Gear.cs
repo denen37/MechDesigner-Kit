@@ -20,7 +20,7 @@ namespace GearWindow.Models
         private double _adjustedContactStress;
         private double _adjustedBendingStress;
         private double _fatigueStressConcFactor;
-        private double _rimThicknessFactor;
+        private double _rimThicknessFactor = 1;
         private double _backupRatio;
         private double _bendingStressCycle;
         private double _pittingStressCycle;
@@ -107,10 +107,9 @@ namespace GearWindow.Models
         {
             get
             {
-                if (_loadCycles <= 0)
-                {
+                
                     _loadCycles = 60 * _drive.DesignLife * numOfLoadAppPerRev * AngVel;
-                }
+                
                 return _loadCycles;
             }
             set { _loadCycles = value; }

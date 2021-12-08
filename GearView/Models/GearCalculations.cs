@@ -122,15 +122,17 @@ namespace GearWindow.Models
             double t = gear.Drive.ToothThickness;
             double b = gear.Drive.Dedendum;
             double d = gear.PitchDiameter;
-            //double phi = gear.Drive.PressureAngle * PI / 180;
+            double phi = gear.Drive.PressureAngle * PI / 180;
             double rf = gear.Drive.FilletRaduis;
+            double P = gear.Drive.DiametralPitch;
 
             //double H = 0.340 - 0.4583662 * phi;
             //double L = 0.316 - 0.4583662 * phi;
             //double M = 0.290 + 0.4583662 * phi;
 
             //double r = (Pow(b - rf, 2) / ((d / 2) + b - rf));
-            double Kf = 0.18 + Pow((t / rf), 0.15) + Pow((t / l), 0.45);
+            double r = (1 / 1 - Sin(phi)) * ((PI / 4 * P) * Cos(phi) - b * Sin(phi));
+            double Kf = 0.18 + Pow((t / r), 0.15) + Pow((t / l), 0.45);
 
             gear.FatigueStressConcFactor = Kf;
 
@@ -143,11 +145,11 @@ namespace GearWindow.Models
 
         public static void CalcContactStressGeometryfactor(GearDrive drive)
         {
-            double Mg = drive.VelocityRatio;
-            double Phi = drive.PressureAngle;
+            double Mg = drive.GearRatio;
+            double Phi = drive.PressureAngle * PI / 180;
             double Mn = 1; // load sharing factor for spur gears;
 
-            drive.ContactStressGeometryFactor = Cos(Phi) * Sin(Phi) / 2 * Mn * (Mg * (Mg + 1)); // External gears.
+            drive.ContactStressGeometryFactor = (Cos(Phi) * Sin(Phi) / 2 * Mn) * (Mg / (Mg + 1)); // External gears.
 
         }
 

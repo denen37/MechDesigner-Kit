@@ -380,7 +380,8 @@
                         <!--Enter Face Width-->
                         <TextBlock Grid.Column="0" Text="Enter: Face Width:" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Column="1" Text="F =" Style="{StaticResource TxtBlkStyle_Param}"/>
-                        <TextBox Grid.Column="2" Text="{Binding FaceWidth}" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                        <TextBox Grid.Column="2" Text="{Binding FaceWidth}" Style="{StaticResource TxtBoxStyle_Normal}"
+                                 cal:Message.Attach="[Event LostFocus] = [Action CalcAlignmentFactor]"/>
                         <TextBlock Grid.Column="3" Text="in" Style="{StaticResource TxtBlkStyle_Unit}"/>
                     </Grid>
                     
@@ -574,9 +575,11 @@
                             </GroupBox.ToolTip>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <RadioButton GroupName="IsCrowned" Content="Crowned" IsChecked="{Binding IsCrowned}"
-                                     FontSize="12" FontWeight="Normal" />
+                                     FontSize="12" FontWeight="Normal" 
+                                             cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]"/>
                                 <RadioButton GroupName="IsCrowned" IsChecked="True"  Content="Uncrowned"
-                                     FontSize="12" FontWeight="Normal" />
+                                     FontSize="12" FontWeight="Normal" 
+                                             cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]"/>
                             </StackPanel>
                         </GroupBox>
                         
@@ -604,9 +607,11 @@
                             </GroupBox.ToolTip>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <RadioButton  GroupName="IsLapped" IsChecked="{Binding IsLapped}" Content="Adjusted, lapped or both"
-                                     FontSize="12" FontWeight="Normal" />
+                                     FontSize="12" FontWeight="Normal" 
+                                              cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]"/>
                                 <RadioButton GroupName="IsLapped" IsChecked="True" Content="All other conditions"
-                                      FontSize="12" FontWeight="Normal" />
+                                      FontSize="12" FontWeight="Normal" 
+                                             cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]"/>
                             </StackPanel>
                         </GroupBox>
 
@@ -622,14 +627,16 @@
                                 </Grid>
                             </GroupBox.ToolTip>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                <RadioButton  GroupName="IsCentered"  IsChecked="{Binding IsCentered}"  FontSize="12" FontWeight="Normal" >
+                                <RadioButton  GroupName="IsCentered"  IsChecked="{Binding IsCentered}"  FontSize="12" FontWeight="Normal" 
+                                              cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]">
                                     <RadioButton.Content>
                                         <TextBlock>
                                             S<Run Text="1" Style="{StaticResource RunStyle_Normal}"/> / S &lt; 0.175
                                         </TextBlock>
                                     </RadioButton.Content>
                                 </RadioButton>
-                                <RadioButton  GroupName="IsCentered"  FontSize="12" FontWeight="Normal">
+                                <RadioButton  GroupName="IsCentered"  FontSize="12" FontWeight="Normal"
+                                              cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]">
                                     <RadioButton.Content>
                                         <TextBlock>
                                             S<Run Text="1" Style="{StaticResource RunStyle_Normal}"/> / S &gt;= 0.175
@@ -652,19 +659,24 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <RadioButton Grid.Column="0" GroupName="Accuracy" IsChecked="{Binding IsOpen}" Content="Open gearing"
-                                     FontSize="12" FontWeight="Normal" Margin="5,0" />
+                                     FontSize="12" FontWeight="Normal" Margin="5,0" 
+                                     cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]"/>
                                 <RadioButton Grid.Column="1" GroupName="Accuracy" IsChecked="{Binding IsCommercial}" Content="Commercial quality"
-                                      FontSize="12" FontWeight="Normal" Margin="5,0" />
+                                      FontSize="12" FontWeight="Normal" Margin="5,0" 
+                                      cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]" />
                                 <RadioButton Grid.Column="2" GroupName="Accuracy" IsChecked="{Binding IsPrecision}"  Content="Precision"
-                                      FontSize="12" FontWeight="Normal" Margin="5,0" />
+                                      FontSize="12" FontWeight="Normal" Margin="5,0"
+                                      cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]"/>
                                 <RadioButton Grid.Column="3" GroupName="Accuracy" IsChecked="{Binding IsExtraPrecision}" Content="Extra-precision "
-                                      FontSize="12" FontWeight="Normal" Margin="5,0" />
+                                      FontSize="12" FontWeight="Normal" Margin="5,0"
+                                      cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]"/>
+
                             </Grid>
                         </GroupBox>
                     </Grid>
                     
                     <!--Right Parent Row 3-->
-                    <Grid Grid.Row="2" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action CalcAlignmentFactor]">
+                    <Grid Grid.Row="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>

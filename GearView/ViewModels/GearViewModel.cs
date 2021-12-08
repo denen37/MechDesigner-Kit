@@ -197,7 +197,7 @@ namespace GearWindow.ViewModels
             GearCalculations.CalcTagentialForce(gearDrive);
             GearCalculations.CalcNormalForce(gearDrive);
             GearCalculations.CalcRadialForce(gearDrive);
-
+           
             NotifyOfPropertyChange(() => GearRatio);
             NotifyOfPropertyChange(() => PinionPitchDiameter);
             NotifyOfPropertyChange(() => GearPitchDiameter);
@@ -211,6 +211,8 @@ namespace GearWindow.ViewModels
             NotifyOfPropertyChange(() => FaceWidthToPinionDiameter);
             NotifyOfPropertyChange(() => NormalForce);
             NotifyOfPropertyChange(() => RadialForce);
+            CalcGeometryFactors();
+            CalcAlignmentFactor();
         }
 
         //Gear Ratio
@@ -399,16 +401,20 @@ namespace GearWindow.ViewModels
         public void FindDynamicFactor()
         {
             GearCalculations.CalcDynamicFactor(gearDrive);
+            
+            NotifyOfPropertyChange(() => DynamicFactor);
+        }
+
+        public void CalcGeometryFactors()
+        {
             GearCalculations.CalcBendingStressGeometryFactor(gearDrive.pinion);
             GearCalculations.CalcBendingStressGeometryFactor(gearDrive.gear);
             GearCalculations.CalcContactStressGeometryfactor(gearDrive);
-            NotifyOfPropertyChange(() => DynamicFactor);
+
             NotifyOfPropertyChange(() => PinionBGeometryFactor);
             NotifyOfPropertyChange(() => GearBGeometryFactor);
             NotifyOfPropertyChange(() => ContactGeometryFactor);
-
         }
-
         public double DynamicFactor
         {
             get { return gearDrive.DynamicFactor; }

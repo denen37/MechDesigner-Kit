@@ -61,14 +61,15 @@ namespace GearWindow.Models
         private double _contactStressGeometryFactor;
         private int _elasticCoefficient;
         private int _qualityNumber;
-        private double _safetyFactor;
+        private double _safetyFactor = 1;
         private double _designLife;
         private HardnessMethod _hardnessType;
         private double _allowableContactStress;
         private double _allowableBendingStress;
         private double _filletRaduis;
-        private double _hardnessRatio;
+        private double _hardnessRatio = 1;
         private int _temperature = 1;
+        private int alignmentFactorsRequest = 0;
 
 
         //private readonly GearDrive drive = this;
@@ -90,9 +91,9 @@ namespace GearWindow.Models
 
         public double RadialForce { get; set; }
 
-        public double OverLoadFactor { get; set; }
+        public double OverLoadFactor { get; set; } = 1;
 
-        public double SizeFactor { get; set; }
+        public double SizeFactor { get; set; } = 1;
 
         public int Hardness { get; set; }
 
@@ -104,19 +105,19 @@ namespace GearWindow.Models
         {
             get
             {
-                if (_pinionProprotionFactor <= 0 && _faceWidth > 0) // Not already assigned;
+                if (alignmentFactorsRequest > 0)
                 {
                     double F = _faceWidth;
                     double d = pinion.PitchDiameter;
-
+                    double A = 0;
                     if (unit == UnitSystem.Metric)
                     {
                         F = UnitConverter.MMandInches(_faceWidth, UnitSystem.English);
                         d = UnitConverter.MMandInches(pinion.PitchDiameter, UnitSystem.English);
                     }
 
-                    double A = (F / 10 * d); 
-                    if (A < 0.05) 
+                    if (d != 0) A = (F / 10 * d);
+                    if (A < 0.05 && d != 0)
                         A = 0.05;
 
                     if (F <= 1)
@@ -126,10 +127,13 @@ namespace GearWindow.Models
                         _pinionProprotionFactor = A - 0.0375 + 0.0125 * F;
 
                     if (F > 17 && F < 40)
-                        _pinionProprotionFactor = A - 0.1109 + 0.0207 * F + Math.Pow(F, 2);  
-                }
-                
+                        _pinionProprotionFactor = A - 0.1109 + 0.0207 * F + Math.Pow(F, 2);
 
+                    alignmentFactorsRequest++;
+                }
+                else alignmentFactorsRequest++;
+                
+                 
                 return _pinionProprotionFactor;
             } 
             set { _pinionProprotionFactor = value; } 
@@ -157,8 +161,9 @@ namespace GearWindow.Models
         {
             get 
             {
-                if (_meshAlignmentFactor <= 0 && _faceWidth > 0) //Not been assigned before.
+                if (alignmentFactorsRequest > 1)
                 {
+
                     double F = _faceWidth;
 
                     switch (_manufacAccuracy)
@@ -181,8 +186,9 @@ namespace GearWindow.Models
 
                         default:
                             break;
-                    }
+                    } 
                 }
+                
                 return _meshAlignmentFactor; 
             }
             set { _meshAlignmentFactor = value; }
@@ -260,10 +266,13 @@ namespace GearWindow.Models
         {
             get 
             {
-                if (_loadDistributionFactor <= 0 && _faceWidth > 0)
+                if (alignmentFactorsRequest > 1)
                 {
-                    _loadDistributionFactor = 1 + CrownFactor * 
+
+
+                    _loadDistributionFactor = 1 + CrownFactor *
                         (PinionProportionFactor * PinionMountingFactor + MeshAlignmentFactor * AdjustmentFactor);
+
                 }
                 return _loadDistributionFactor; 
             }
