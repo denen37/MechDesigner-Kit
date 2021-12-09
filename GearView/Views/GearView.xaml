@@ -949,7 +949,7 @@
                     </Grid>
 
                     <!--Left Parent Row 10-->
-                    <Grid Grid.Row="9">
+                    <!--<Grid Grid.Row="9">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -961,7 +961,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--Stress Analysis:Pinion Bending  - Required-->
+                        --><!--Stress Analysis:Pinion Bending  - Required--><!--
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Pinion - Required:" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                                 S<Run Text="at" Style="{StaticResource RunStyle_Normal}"/> =
@@ -969,13 +969,69 @@
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PinionBendingStress}" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Row="0" Grid.Column="3" Text="psi" Style="{StaticResource TxtBlkStyle_Unit}"/>
 
-                        <!--Stress Analysis:Pinion Bending  - Required-->
+                        --><!--Stress Analysis:Pinion Bending  - Required--><!--
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Gear - Required:" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                                 S<Run Text="at" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding GearBendingStress}" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Row="1" Grid.Column="3" Text="psi" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>-->
+
+                    <Grid Grid.Row="9">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <!--Header-->
+                        <!--Bending Stress Number-->
+                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center"
+                                    ToolTip="Bending Stress Number">
+                            <TextBlock Style="{StaticResource TxtBlkStyle_Param}" FontWeight="bold">
+                                S<Run Text="t" Style="{StaticResource RunStyle_Normal}"/>
+                            </TextBlock>
+                            <TextBlock Text="" Style="{StaticResource TxtBlkStyle_Param}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <!--Allowable Bending Stress Number-->
+                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center"
+                                    ToolTip="Allowable Bending Stress Number">
+                            <TextBlock Style="{StaticResource TxtBlkStyle_Param}" FontWeight="bold">
+                                S<Run Text="t, all" Style="{StaticResource RunStyle_Normal}"/>
+                            </TextBlock>
+                            <TextBlock Text="" Style="{StaticResource TxtBlkStyle_Param}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <!--Safety Factor-->
+                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TxtBlkStyle_Param}" FontWeight="bold"
+                                   TextAlignment="Left">
+                                S<Run Text="F" Style="{StaticResource RunStyle_Normal}"/>
+                        </TextBlock>
+                        
+                        <!--Pinion Values-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Pinion:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   FontStyle="Italic"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding PinionBendingStress}" Style="{StaticResource TxtBlkStyle_Param}"
+                                   TextAlignment="Left"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding PAllowableBendingStress}" Style="{StaticResource TxtBlkStyle_Param}"
+                                    TextAlignment="Left"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding PBendingSafetyFactor}" Style="{StaticResource TxtBlkStyle_Param}"
+                                    TextAlignment="Left"/>
+                        
+                        <!--Gear Values-->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Gear:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   FontStyle="Italic"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding GearBendingStress}" Style="{StaticResource TxtBlkStyle_Param}"
+                                    TextAlignment="Left"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding GAllowableBendingStress}" Style="{StaticResource TxtBlkStyle_Param}"
+                                    TextAlignment="Left"/>
+                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding GBendingSafetyFactor}" Style="{StaticResource TxtBlkStyle_Param}"
+                                    TextAlignment="Left"/>
                     </Grid>
 
                     <!--Left Parent Row 11-->
@@ -983,7 +1039,7 @@
                         <TextBlock Text="Stress Analysis: Pitting" Style="{StaticResource TxtBlkStyle_Header}"/>
                     </Grid>
 
-                    <!--Left Parent Row 12-->
+                    <!--Left Parent Row 12--><!--
                     <Grid Grid.Row="11">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -996,7 +1052,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--Stress Analysis:Pinion Pitting  - Required-->
+                        --><!--Stress Analysis:Pinion Pitting  - Required--><!--
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Pinion - Required:" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                                 S<Run Text="ac" Style="{StaticResource RunStyle_Normal}"/> =
@@ -1004,15 +1060,71 @@
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PinionPittingStress}" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Row="0" Grid.Column="3" Text="psi" Style="{StaticResource TxtBlkStyle_Unit}"/>
 
-                        <!--Stress Analysis:Pinion Pitting  - Required-->
+                        --><!--Stress Analysis:Pinion Pitting  - Required--><!--
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Gear - Required:" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TxtBlkStyle_Param}">
                                 S<Run Text="ac" Style="{StaticResource RunStyle_Normal}"/> =
                         </TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding GearPittingStress}" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <TextBlock Grid.Row="1" Grid.Column="3" Text="psi" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                    </Grid>-->
+
+                    <Grid Grid.Row="11">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <!--Header-->
+                        <!--Contact Stress Number-->
+                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center"
+                                    ToolTip="Contact Stress Number">
+                            <TextBlock Style="{StaticResource TxtBlkStyle_Param}" FontWeight="bold">
+                                S<Run Text="c" Style="{StaticResource RunStyle_Normal}"/>
+                            </TextBlock>
+                            <TextBlock Text="" Style="{StaticResource TxtBlkStyle_Param}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <!--Allowable Contact Stress Number-->
+                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center"
+                                    ToolTip="Allowable Contact Stress Number">
+                            <TextBlock Style="{StaticResource TxtBlkStyle_Param}" FontWeight="bold">
+                                S<Run Text="c, all" Style="{StaticResource RunStyle_Normal}"/>
+                            </TextBlock>
+                            <TextBlock Text="" Style="{StaticResource TxtBlkStyle_Param}" FontWeight="Bold"/>
+                        </StackPanel>
+                        <!--Safety Factor-->
+                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TxtBlkStyle_Param}" FontWeight="bold"
+                                   TextAlignment="Left">
+                                S<Run Text="F" Style="{StaticResource RunStyle_Normal}"/>
+                        </TextBlock>
+
+                        <!--Pinion Values-->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Pinion:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   FontStyle="Italic"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding PinionPittingStress}" Style="{StaticResource TxtBlkStyle_Param}"
+                                   TextAlignment="Left"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding PAllowableContactStress}" Style="{StaticResource TxtBlkStyle_Param}"
+                                   TextAlignment="Left"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding PContactSafetyFactor}" Style="{StaticResource TxtBlkStyle_Param}"
+                                   TextAlignment="Left"/>
+
+                        <!--Gear Values-->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Gear:" Style="{StaticResource TxtBlkStyle_Param}"
+                                   FontStyle="Italic"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding GearPittingStress}" Style="{StaticResource TxtBlkStyle_Param}"
+                                   TextAlignment="Left"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding GAllowableContactStress}" Style="{StaticResource TxtBlkStyle_Param}"
+                                   TextAlignment="Left"/>
+                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding GContactSafetyFactor}" Style="{StaticResource TxtBlkStyle_Param}"
+                                   TextAlignment="Left"/>
                     </Grid>
-                    
+
                     <!--Left Parent Row 13-->
                     <Grid Grid.Row="12">
                         <Grid.RowDefinitions>

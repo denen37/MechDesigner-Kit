@@ -29,7 +29,8 @@ namespace GearWindow.Models
 
         public event EventHandler<double> AngVelChanged;
         public event EventHandler<double> CanCalcStressCycleFactors;
-        public event EventHandler<double> CanCalcStressNumbers;
+        public event EventHandler<double> CanCalcAllBendingStress;
+        public event EventHandler<double> CanCalcAllContactStress;
         public Gear() { }
        
         public Gear(GearDrive drive)
@@ -219,14 +220,18 @@ namespace GearWindow.Models
             set 
             {
                 _bendingStressCycle = value;
-                CanCalcStressNumbers?.Invoke(this, _bendingStressCycle);
+                CanCalcAllBendingStress?.Invoke(this, _bendingStressCycle);
             }
         }
 
         public double PittingStressCycleFactor
         {
             get { return _pittingStressCycle; }
-            set { _pittingStressCycle = value; }
+            set 
+            { 
+                _pittingStressCycle = value;
+                CanCalcAllContactStress?.Invoke(this, _pittingStressCycle);
+            }
         }
 
         public double ContactStress

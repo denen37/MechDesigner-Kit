@@ -24,7 +24,14 @@ namespace GearWindow.Models
     {
         Case_carburized,
         Nitrided,
-        Through_hardened
+        Through_hardened,
+        FlameOrInduction_hardened
+    }
+
+    public enum Grade
+    {
+        Grade1,
+        Grade2
     }
 
     public class GearDrive
@@ -64,6 +71,7 @@ namespace GearWindow.Models
         private double _safetyFactor = 1;
         private double _designLife;
         private HardnessMethod _hardnessType = HardnessMethod.Case_carburized;
+        private Grade grade = Grade.Grade1;
         private double _allowableContactStress;
         private double _allowableBendingStress;
         private double _filletRaduis;
@@ -72,6 +80,7 @@ namespace GearWindow.Models
         private int alignmentFactorsRequest = 0;
 
         public event EventHandler<double> NoOfLoadCyclesChanged;
+        public event EventHandler<double> CanCalcStressNumbers;
 
 
         //private readonly GearDrive drive = this;
@@ -97,7 +106,9 @@ namespace GearWindow.Models
 
         public double SizeFactor { get; set; } = 1;
 
-        public int Hardness { get; set; }
+        public int Hardness { get; set; } = 140;
+
+        public int CaseHardness { get; set; } = 55;
 
         public string Application { get; set; }
 
@@ -544,7 +555,11 @@ namespace GearWindow.Models
 
                 return _dynamicFactor;
             }
-            set { _dynamicFactor = value; }
+            set 
+            { 
+                _dynamicFactor = value;
+                CanCalcStressNumbers?.Invoke(this, _dynamicFactor);
+            }
         }
 
         public double MaxVelocity
@@ -597,6 +612,13 @@ namespace GearWindow.Models
             get { return _hardnessType; }
             set { _hardnessType = value; }
         }
+
+        public Grade SteelGrade
+        {
+            get { return grade; }
+            set { grade = value; }
+        }
+
 
         public double AllowableContactStress
         {

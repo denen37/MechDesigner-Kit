@@ -34,27 +34,72 @@ namespace GearWindow.ViewModels
             gearDrive.gear.AngVelChanged += Gear_AngVelChanged;
             gearDrive.pinion.CanCalcStressCycleFactors += Pinion_CanCalcStressCycleFactors;
             gearDrive.gear.CanCalcStressCycleFactors += Gear_CanCalcStressCycleFactors;
-            gearDrive.pinion.CanCalcStressNumbers += Pinion_CanCalcStressNumbers;
-            gearDrive.gear.CanCalcStressNumbers += Gear_CanCalcStressNumbers;
+            gearDrive.CanCalcStressNumbers += GearDrive_CanCalcStressNumbers;
+            gearDrive.pinion.CanCalcAllBendingStress += Pinion_CanCalcAllBendingStress;
+            gearDrive.gear.CanCalcAllBendingStress += Gear_CanCalcAllBendingStress;
+            gearDrive.pinion.CanCalcAllContactStress += Pinion_CanCalcAllContactStress;
+            gearDrive.gear.CanCalcAllContactStress += Gear_CanCalcAllContactStress;
+
         }
 
-        private void Gear_CanCalcStressNumbers(object sender, double e)
+        private void Gear_CanCalcAllContactStress(object sender, double e)
         {
+            GearCalculations.CalcAdjustedContactStress(gearDrive.gear);
+            NotifyOfPropertyChange(() => GAllowableContactStress);
+            NotifyOfPropertyChange(() => GContactSafetyFactor);
+        }
+
+        private void Pinion_CanCalcAllContactStress(object sender, double e)
+        {
+            GearCalculations.CalcAdjustedContactStress(gearDrive.pinion);
+            NotifyOfPropertyChange(() => PAllowableContactStress);
+            NotifyOfPropertyChange(() => PContactSafetyFactor);
+        }
+
+        private void Gear_CanCalcAllBendingStress(object sender, double e)
+        {
+            GearCalculations.CalcAdjustedBendingStress(gearDrive.gear);
+            NotifyOfPropertyChange(() => GAllowableBendingStress);
+            NotifyOfPropertyChange(() => GBendingSafetyFactor);
+        }
+
+        private void Pinion_CanCalcAllBendingStress(object sender, double e)
+        {
+            GearCalculations.CalcAdjustedBendingStress(gearDrive.pinion);
+            NotifyOfPropertyChange(() => PAllowableBendingStress);
+            NotifyOfPropertyChange(() => PBendingSafetyFactor);
+        }
+
+        private void GearDrive_CanCalcStressNumbers(object sender, double e)
+        {
+            GearCalculations.CalcBendingStress(gearDrive.pinion);
             GearCalculations.CalcBendingStress(gearDrive.gear);
+            GearCalculations.CalcContactStress(gearDrive.pinion);
             GearCalculations.CalcContactStress(gearDrive.gear);
 
+            NotifyOfPropertyChange(() => PinionBendingStress);
             NotifyOfPropertyChange(() => GearBendingStress);
+            NotifyOfPropertyChange(() => PinionPittingStress);
             NotifyOfPropertyChange(() => GearPittingStress);
         }
 
-        private void Pinion_CanCalcStressNumbers(object sender, double e)
-        {
-            GearCalculations.CalcBendingStress(gearDrive.pinion);
-            GearCalculations.CalcContactStress(gearDrive.pinion);
+        //private void Gear_CanCalcStressNumbers(object sender, double e)
+        //{
+        //    GearCalculations.CalcBendingStress(gearDrive.gear);
+        //    GearCalculations.CalcContactStress(gearDrive.gear);
 
-            NotifyOfPropertyChange(() => PinionBendingStress);
-            NotifyOfPropertyChange(() => PinionPittingStress);
-        }
+        //    NotifyOfPropertyChange(() => GearBendingStress);
+        //    NotifyOfPropertyChange(() => GearPittingStress);
+        //}
+
+        //private void Pinion_CanCalcStressNumbers(object sender, double e)
+        //{
+        //    GearCalculations.CalcBendingStress(gearDrive.pinion);
+        //    GearCalculations.CalcContactStress(gearDrive.pinion);
+
+        //    NotifyOfPropertyChange(() => PinionBendingStress);
+        //    NotifyOfPropertyChange(() => PinionPittingStress);
+        //}
 
         private void Gear_CanCalcStressCycleFactors(object sender, double e)
         {
@@ -755,16 +800,32 @@ namespace GearWindow.ViewModels
             set { gearDrive.pinion.BendingStress = value; }
         }
 
+        public double PAllowableBendingStress
+        {
+            get { return gearDrive.pinion.AdjustedBendingStress; }
+            set { gearDrive.pinion.AdjustedBendingStress = value; }
+        }
         public double GearBendingStress
         {
             get { return gearDrive.gear.BendingStress; }
             set { gearDrive.gear.BendingStress = value; }
         }
 
+        public double GAllowableBendingStress
+        {
+            get { return gearDrive.gear.AdjustedBendingStress; }
+            set { gearDrive.gear.AdjustedBendingStress = value; }
+        }
         public double PinionPittingStress
         {
             get { return gearDrive.pinion.ContactStress; }
             set { gearDrive.pinion.ContactStress = value; }
+        }
+
+        public double PAllowableContactStress
+        {
+            get { return gearDrive.pinion.AdjustedContactStress; }
+            set { gearDrive.pinion.AdjustedContactStress = value; }
         }
 
         public void ShowContactStressCycleFactor()
@@ -780,11 +841,67 @@ namespace GearWindow.ViewModels
             set { gearDrive.gear.ContactStress = value; }
         }
 
+        public double GAllowableContactStress
+        {
+            get { return gearDrive.gear.AdjustedContactStress; }
+            set { gearDrive.gear.AdjustedContactStress = value; }
+        }
         public void ShowContactStressCycleFactor2()
         {
             ShowContactStressCycleFactor();
         }
 
+        public double PBendingSafetyFactor
+        {
+            get 
+            {
+                double Sf = 0;
+                if (gearDrive.pinion.BendingStress != 0)
+                {
+                    Sf = gearDrive.pinion.AdjustedBendingStress / gearDrive.pinion.BendingStress; 
+                }
+                return Math.Round(Sf, 2);
+            }
+        }
+
+        public double GBendingSafetyFactor
+        {
+            get 
+            {
+                double Sf = 0;
+                if (gearDrive.gear.BendingStress != 0)
+                {
+                    Sf = gearDrive.gear.AdjustedBendingStress / gearDrive.gear.BendingStress; 
+                }
+                return Math.Round(Sf, 2); 
+            }
+        }
+
+        public double PContactSafetyFactor
+        {
+            get 
+            {
+                double Sf = 0;
+                if (gearDrive.pinion.ContactStress != 0)
+                {
+                    Sf = gearDrive.pinion.AdjustedContactStress / gearDrive.pinion.ContactStress; 
+                }
+                return Math.Round(Sf, 2);
+            }
+        }
+
+        public double GContactSafetyFactor
+        {
+            get 
+            {
+                double Sf = 0;
+                if (gearDrive.gear.ContactStress != 0)
+                {
+                    Sf = gearDrive.gear.AdjustedContactStress / gearDrive.gear.ContactStress;
+                }
+                return Math.Round(Sf, 2);
+            }
+        }
 
         public string PowerUnit
         {

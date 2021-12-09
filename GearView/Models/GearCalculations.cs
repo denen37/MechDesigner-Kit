@@ -247,26 +247,139 @@ namespace GearWindow.Models
             gear.PittingStressCycleFactor = Round(Zn, places);
         }
 
-        public static void GetAllowableBendingStress(GearDrive drive)
+        public static void CalcAdjustedContactStress(Gear gear)
         {
-            throw new NotImplementedException();
+            CalcAllowableContactStress(gear.Drive);
+            double Sc = gear.Drive.AllowableContactStress;
+            double Zn = gear.PittingStressCycleFactor;
+            double Sf = gear.Drive.SafetyFactor;
+            double Kt = gear.Drive.TemperatureFactor;
+            double Kr = gear.Drive.ReliabilityFactor;
+
+            gear.AdjustedContactStress = (Sc * Zn) / (Sf * Kt * Kr);
         }
 
-        public static void GetAllowableContactStress(GearDrive drive)
+        public static void CalcAdjustedBendingStress(Gear gear)
         {
-            throw new NotImplementedException();
+            CalcAllowableBendingStress(gear.Drive);
+            double St = gear.Drive.AllowableBendingStress;
+            double Yn = gear.BendingStressCycleFactor;
+            double Sf = gear.Drive.SafetyFactor;
+            double Kt = gear.Drive.TemperatureFactor;
+            double Kr = gear.Drive.ReliabilityFactor;
+
+
+            gear.AdjustedBendingStress = (St * Yn) / (Sf * Kt * Kr);
         }
 
-        public static void CalcAdjustedContactStress(GearDrive drive)
+        private static void CalcAllowableBendingStress (GearDrive drive)
         {
-            throw new NotImplementedException();
+            double HB = drive.Hardness;
+            double St = 0;
+
+            switch (drive.HardnessType)
+            {
+                case HardnessMethod.Case_carburized:
+                    if (drive.CaseHardness >= 55 || drive.CaseHardness <= 64)
+                    {
+                        St = 55000;
+                    }
+                    else St = -1;
+                    break;
+                case HardnessMethod.Nitrided:
+                    if (drive.SteelGrade == Grade.Grade1)
+                    {
+                        St = 82.3 * HB + 12150;
+                    }
+                    else
+                    {
+                        St = 108.6 * HB + 15890;
+                    }
+                    break;
+                case HardnessMethod.Through_hardened:
+                    if (drive.SteelGrade == Grade.Grade1)
+                    {
+                        St = 77.3 * HB + 12800;
+                    }
+                    else
+                    {
+                        St = 102 * HB + 16400;
+                    }
+                    break;
+                case HardnessMethod.FlameOrInduction_hardened:
+                    St = 45000;
+                    break;
+                default:
+                    break;
+            }
+
+            drive.AllowableBendingStress = St;
         }
 
-        public static void CalcAdjustedBendingStress(GearDrive drive)
+        private static void CalcAllowableContactStress(GearDrive drive)
         {
-            double Sat = drive.AllowableBendingStress;
-            double Yn = drive.pinion.BendingStressCycleFactor;
-            //double 
+            double HB = drive.Hardness;
+            double St = 0;
+
+            switch (drive.HardnessType)
+            {
+                case HardnessMethod.Case_carburized:
+                    if (drive.CaseHardness >= 55 || drive.CaseHardness <= 64)
+                    {
+                        St = 170000;
+                    }
+                    else St = -1;
+                    break;
+                case HardnessMethod.Nitrided:
+                    if (drive.SteelGrade == Grade.Grade1)
+                    {
+                        St = 155000;
+                    }
+                    else
+                    {
+                        St = 170000;
+                    }
+                    break;
+                case HardnessMethod.Through_hardened:
+                    if (drive.SteelGrade == Grade.Grade1)
+                    {
+                        St = 322 * HB + 29100;
+                    }
+                    else
+                    {
+                        St = 349 * HB + 34300;
+                    }
+                    break;
+                case HardnessMethod.FlameOrInduction_hardened:
+                    if (drive.CaseHardness == 50)
+                    {
+                        if (drive.SteelGrade == Grade.Grade1)
+                        {
+                            St = 170000;
+                        }
+                        else
+                        {
+                            St = 190000;
+                        }
+                    }
+                    else
+                    {
+
+                        if (drive.SteelGrade == Grade.Grade1)
+                        {
+                            St = 175000;
+                        }
+                        else
+                        {
+                            St = 195000;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            drive.AllowableContactStress = St;
         }
     }
 }
