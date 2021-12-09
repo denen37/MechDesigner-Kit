@@ -29,6 +29,7 @@ namespace GearWindow.Models
 
         public event EventHandler<double> AngVelChanged;
         public event EventHandler<double> CanCalcStressCycleFactors;
+        public event EventHandler<double> ReCalcStressFactor;
         public event EventHandler<double> CanCalcAllBendingStress;
         public event EventHandler<double> CanCalcAllContactStress;
         public Gear() { }
@@ -120,7 +121,11 @@ namespace GearWindow.Models
         public double BendingStressGeometryFactor
         {
             get { return _bendingStressGeometryFactor; }
-            set { _bendingStressGeometryFactor = value; }
+            set 
+            {
+                _bendingStressGeometryFactor = value;
+                ReCalcStressFactor?.Invoke(this, value);
+            }
         }
 
         public double LoadCycles
@@ -198,7 +203,10 @@ namespace GearWindow.Models
                 }
                 return _rimThicknessFactor;
             }
-            set { _rimThicknessFactor = value; }
+            set 
+            { 
+                _rimThicknessFactor = value;
+            }
         }
 
         public double BackupRatio

@@ -280,7 +280,7 @@ namespace GearWindow.Models
             switch (drive.HardnessType)
             {
                 case HardnessMethod.Case_carburized:
-                    if (drive.CaseHardness >= 55 || drive.CaseHardness <= 64)
+                    if (drive.CaseHardness >= 55 && drive.CaseHardness <= 64)
                     {
                         St = 55000;
                     }
@@ -324,7 +324,7 @@ namespace GearWindow.Models
             switch (drive.HardnessType)
             {
                 case HardnessMethod.Case_carburized:
-                    if (drive.CaseHardness >= 55 || drive.CaseHardness <= 64)
+                    if (drive.CaseHardness >= 55 && drive.CaseHardness <= 64)
                     {
                         St = 170000;
                     }
@@ -351,7 +351,7 @@ namespace GearWindow.Models
                     }
                     break;
                 case HardnessMethod.FlameOrInduction_hardened:
-                    if (drive.CaseHardness == 50)
+                    if (drive.CaseHardness <= 52)
                     {
                         if (drive.SteelGrade == Grade.Grade1)
                         {

@@ -424,6 +424,10 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
                         
                         <!--Pinion Material-->
                         <TextBlock Grid.Column="0" Text="Pinion Material" Style="{StaticResource TxtBlkStyle_Param}"/>
@@ -437,6 +441,73 @@
                                   SelectedIndex="{Binding ElementName=pinionDropdown, Path=SelectedIndex, Mode=OneWay}"
                                   SelectedItem="{Binding GearMaterial}" ItemsSource="{Binding AvailableMaterials}"
                                    cal:Message.Attach="[Event SelectionChanged] = [Action GearMaterialChanged]"/>
+
+                        <!--<GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Style="{StaticResource GroupboxStyle}"
+                                  Header="Heat Treatment">
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Grid.Column="0" GroupName="HeatTreament" IsChecked="{Binding IsThroughHardened}"
+                                     FontSize="12" FontWeight="Normal" Margin="5,0" >
+                                    <RadioButton.Content>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="Through Hardened" Style="{StaticResource TxtBlkStyle_Param}"/>
+                                            <TextBox Text="" Width="100" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                                        </StackPanel>
+                                    </RadioButton.Content>
+                                </RadioButton>
+
+                                <RadioButton Grid.Column="1" GroupName="HeatTreament" IsChecked="{Binding IsCaseHardened}"
+                                      FontSize="12" FontWeight="Normal" Margin="5,0" >
+                                    <RadioButton.Content>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="Case Hardened" Style="{StaticResource TxtBlkStyle_Param}"/>
+                                            <TextBox Text="" Width="100" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                                        </StackPanel>
+                                    </RadioButton.Content>
+                                </RadioButton>
+
+                                <RadioButton Grid.Column="2" GroupName="HeatTreament" IsChecked="{Binding IsFlameHardened}"
+                                      FontSize="12" FontWeight="Normal" Margin="5,0">
+                                    <RadioButton.Content>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="Flame and Induction Hardened" Style="{StaticResource TxtBlkStyle_Param}"/>
+                                            <TextBox Text="" Width="100" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                                        </StackPanel>
+                                    </RadioButton.Content>
+                                </RadioButton>
+
+                                <RadioButton Grid.Column="3" GroupName="HeatTreament" IsChecked="{Binding IsNitrided}">
+                                    <RadioButton.Content>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="Nitrided" Style="{StaticResource TxtBlkStyle_Param}"/>
+                                            <TextBox Text="" Width="70" Style="{StaticResource TxtBoxStyle_Normal}"/>
+                                        </StackPanel>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                                --><!--cal:Message.Attach="[Event Checked] = [Action CalcAlignmentFactor]"--><!--
+
+                            </Grid>
+
+                        </GroupBox>-->
+                        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1.2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="Heat Treatment" Style="{StaticResource TxtBlkStyle_Param}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding HeatTreatmentMethods}" Style="{StaticResource DropdownStyle_Normal}"
+                                      SelectedIndex="{Binding HeatTreatment}" />
+                            <TextBox Grid.Column="2" Text="{Binding HardnessValue, Mode=OneWayToSource}" Style="{StaticResource TxtBoxStyle_Normal}" IsEnabled="{Binding IsSelected}"/>
+                            <TextBlock Grid.Column="3" Text="{Binding HardnessUnit}" Style="{StaticResource TxtBlkStyle_Unit}"/>
+                        </Grid>
                     </Grid>
                     
                     <!--Parent Row 11-->
@@ -1127,13 +1198,8 @@
 
                     <!--Left Parent Row 13-->
                     <Grid Grid.Row="12">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Specify materials, alloy and heat treatment for most severe requirement"
-                                   TextAlignment="Left" Style="{StaticResource TxtBlkStyle_Header}"/>
-                        <TextBlock Grid.Row="1" Text="One possible material specification:" Style="{StaticResource TxtBlkStyle_Header}"
+                       
+                        <TextBlock Grid.Row="1" Text="Inference:" Style="{StaticResource TxtBlkStyle_Header}"
                                    TextAlignment="Left"/>
                     </Grid>
 
@@ -1150,9 +1216,9 @@
                         </Grid.RowDefinitions>
 
                         <!--Pinion material specification-->
-                        <TextBlock Grid.Row="0" Text="" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="0" Text="{Binding Jugdement}" Style="{StaticResource TxtBlkStyle_Param}"/>
                         <!--Gear Material specification-->
-                        <TextBlock Grid.Row="1" Text="" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Suggestion}" Style="{StaticResource TxtBlkStyle_Param}"/>
                     </Grid>
                 </Grid>
             </ScrollViewer>

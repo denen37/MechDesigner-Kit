@@ -62,11 +62,11 @@ namespace GearWindow.Models
         private double _adjustmentFactor;
         private double _pinionMountingFactor;
         private double _loadDistributionFactor;
-        private double _dynamicFactor;
+        private double _dynamicFactor = 1;
         private double _maxVelocity;
         private double _reliabilityFactor = 1;
         private double _contactStressGeometryFactor;
-        private int _elasticCoefficient;
+        private int _elasticCoefficient = 2300;
         private int _qualityNumber;
         private double _safetyFactor = 1;
         private double _designLife;
@@ -78,9 +78,16 @@ namespace GearWindow.Models
         private double _hardnessRatio = 1;
         private int _temperature = 1;
         private int alignmentFactorsRequest = 0;
+        private double _overloadFactor = 1;
+        private double _sizeFactor = 1;
+        private double _serviceFactor = 1;
+        private int _caseHardness = 50;
+        private int _hardness = 140;
+        private int places = 2;
 
         public event EventHandler<double> NoOfLoadCyclesChanged;
         public event EventHandler<double> CanCalcStressNumbers;
+        public event EventHandler<double> ReCalcStressNumbers;
 
 
         //private readonly GearDrive drive = this;
@@ -102,17 +109,56 @@ namespace GearWindow.Models
 
         public double RadialForce { get; set; }
 
-        public double OverLoadFactor { get; set; } = 1;
+        public double OverLoadFactor 
+        {
+            get { return _overloadFactor; }
+            set 
+            {
+                _overloadFactor = value;
+                CanCalcStressNumbers?.Invoke(this, _overloadFactor);
+            } 
+        }
 
-        public double SizeFactor { get; set; } = 1;
+        public double SizeFactor 
+        {
+            get { return _sizeFactor; }
+            set 
+            { 
+                _sizeFactor = value;
+                CanCalcStressNumbers?.Invoke(this, _overloadFactor);
+            }
+        } 
 
-        public int Hardness { get; set; } = 140;
+        public int Hardness 
+        {
+            get { return _hardness; }
+            set 
+            {
+                _hardnessRatio = value;
+                ReCalcStressNumbers?.Invoke(this, value);
+            }
+        }
 
-        public int CaseHardness { get; set; } = 55;
+        public int CaseHardness
+        { get { return _caseHardness; }
+            set 
+            { 
+                _caseHardness = value;
+                ReCalcStressNumbers?.Invoke(this, value);
+            } 
+        }
 
         public string Application { get; set; }
 
-        public double ServiceFactor { get; set; }
+        public double ServiceFactor 
+        {
+            get { return _serviceFactor; } 
+            set
+            { 
+                _serviceFactor = value;
+                CanCalcStressNumbers?.Invoke(this, _serviceFactor);
+            }
+        }
 
         public double PinionProportionFactor 
         {
@@ -147,7 +193,7 @@ namespace GearWindow.Models
                 else alignmentFactorsRequest++;
                 
                  
-                return _pinionProprotionFactor;
+                return Math.Round(_pinionProprotionFactor, places);
             } 
             set { _pinionProprotionFactor = value; } 
         }
@@ -202,7 +248,7 @@ namespace GearWindow.Models
                     } 
                 }
                 
-                return _meshAlignmentFactor; 
+                return Math.Round(_meshAlignmentFactor, places); 
             }
             set { _meshAlignmentFactor = value; }
         }
@@ -287,7 +333,7 @@ namespace GearWindow.Models
                         (PinionProportionFactor * PinionMountingFactor + MeshAlignmentFactor * AdjustmentFactor);
 
                 }
-                return _loadDistributionFactor; 
+                return Math.Round(_loadDistributionFactor, places); 
             }
         }
 
@@ -577,7 +623,11 @@ namespace GearWindow.Models
         public double ContactStressGeometryFactor
         {
             get { return _contactStressGeometryFactor; }
-            set { _contactStressGeometryFactor = value; }
+            set 
+            {
+                _contactStressGeometryFactor = value;
+                CanCalcStressNumbers?.Invoke(this, value);
+            }
         }
 
 

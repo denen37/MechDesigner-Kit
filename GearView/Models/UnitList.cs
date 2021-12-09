@@ -10,6 +10,7 @@ namespace GearWindow.Models
     {
         private List<string> Length = new List<string> { "mm", "in" };
 
+
         private List<string> Force = new List<string> { "N", "lbf" };
 
         private List<string> MajorLength = new List<string> { "m", "ft" };
@@ -22,7 +23,17 @@ namespace GearWindow.Models
 
         private List<string> Power = new List<string> { "KW", "hp" };
 
+        private List<string> _hardnessUnit = new List<string> { "HB", "HRC" };
+
         private string AngularSpeed = "rpm";
+
+
+        public List<string> HardnessUnit
+        {
+            get { return _hardnessUnit; }
+            set { _hardnessUnit = value; }
+        }
+
 
         private int unitId;
 

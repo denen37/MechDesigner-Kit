@@ -17,10 +17,14 @@ namespace GearWindow.ViewModels
         private SimpleContainer _container;
         private GearDrive gearDrive;
         private UnitList unit = new UnitList(1);
+        private string hardnessUnit;
+        private bool isSelected = false;
         private BindableCollection<string> availableMaterials =
             new BindableCollection<string> { "Steel", "Malleable Iron", "Nodular Iron", "Cast Iron", "Aluminium Bronze", "Tin Bronze" };
         private BindableCollection<string> availableQualityNo =
             new BindableCollection<string> { "A12", "A11", "A10", "A9", "A8", "A7", "A6", "A5", "A4", "A3", "A2", "A1" };
+        private BindableCollection<string> _heatTreaments = 
+            new BindableCollection<string> { "Through Hardened", "Case Hardened", "Flame and Induction Hardened", "Nitrided"};
         
         public GearViewModel(IWindowManager manager, IEventAggregator events, SimpleContainer container)
         {
@@ -39,14 +43,157 @@ namespace GearWindow.ViewModels
             gearDrive.gear.CanCalcAllBendingStress += Gear_CanCalcAllBendingStress;
             gearDrive.pinion.CanCalcAllContactStress += Pinion_CanCalcAllContactStress;
             gearDrive.gear.CanCalcAllContactStress += Gear_CanCalcAllContactStress;
+            gearDrive.pinion.ReCalcStressFactor += Pinion_ReCalcStressFactor;
+            gearDrive.gear.ReCalcStressFactor += Gear_ReCalcStressFactor;
+            gearDrive.ReCalcStressNumbers += GearDrive_ReCalcStressNumbers;
 
         }
+
+        public string Jugdement
+        {
+            get
+            {
+                string conclusion = null;
+                if (PBendingSafetyFactor == 0 ||
+                    GBendingSafetyFactor == 0 ||
+                    PContactSafetyFactor == 0 ||
+                    GContactSafetyFactor == 0)
+                {
+                    return conclusion;
+                }
+                else
+                {
+                    if (PBendingSafetyFactor < 1)
+                    {
+                        conclusion = $"The Gear Design Will Not Be Able To Withstand the bending stress since " +
+                            $"the Pinion Bending Safety Factor is Less than 1\nConsider selecting another diametral pitch";
+                        
+                    }
+                    else if(GBendingSafetyFactor < 1)
+                    {
+                        conclusion = $"The Gear Design Will Not Be Able To Withstand the bending stress since " +
+                            $"the Gear Bending Safety Factor is Less than 1\nConsider selecting another diametral pitch ";
+                    }
+                    else if (PContactSafetyFactor < 1)
+                    {
+                        conclusion = $"The Gear Design Will Not Be Able To Withstand the contact stress since " +
+                            $"the Pinion Contact Safety Factor is Less than 1\nConsider selecting a larger face width";
+                    }
+                    else if (GContactSafetyFactor < 1)
+                    {
+                        conclusion = $"The Gear Design Will Not Be Able To Withstand the contact stress since " +
+                            $"the Gear Contact Safety Factor is Less than 1\nConsider selecting a larger face width";
+                    }
+                    else
+                    {
+                        conclusion = $"The Gear Design is Satisfactory!\n You may want to iterate again to obtain more alternatives";
+                    }
+
+                    return conclusion;
+                }
+            }
+        }
+        private void GearDrive_ReCalcStressNumbers(object sender, double e)
+        {
+            Gear_CanCalcAllBendingStress(sender, e);
+            Gear_CanCalcAllContactStress(sender, e);
+            Pinion_CanCalcAllBendingStress(sender, e);
+            Pinion_CanCalcAllContactStress(sender, e);
+        }
+
+        private void Gear_ReCalcStressFactor(object sender, double e)
+        {
+            GearDrive_CanCalcStressNumbers(sender, e);
+        }
+
+        private void Pinion_ReCalcStressFactor(object sender, double e)
+        {
+            GearDrive_CanCalcStressNumbers(sender, e);
+        }
+
+        public BindableCollection<string> HeatTreatmentMethods
+        {
+            get { return _heatTreaments; }
+            //set { myVar = value; }
+        }
+
+        public int HeatTreatment
+        {
+            set
+            {
+                switch (value)
+                {
+                    case 0:
+                        gearDrive.HardnessType = HardnessMethod.Through_hardened;
+                        hardnessUnit = unit.HardnessUnit[0];
+                        IsSelected = true;
+                        NotifyOfPropertyChange(() => IsSelected);
+                        NotifyOfPropertyChange(() => HardnessUnit);
+                        break;
+                    case 1:
+                        gearDrive.HardnessType = HardnessMethod.Case_carburized;
+                        hardnessUnit = unit.HardnessUnit[1];
+                        IsSelected = true;
+                        NotifyOfPropertyChange(() => IsSelected);
+                        NotifyOfPropertyChange(() => HardnessUnit);
+                        break;
+                    case 2:
+                        gearDrive.HardnessType = HardnessMethod.FlameOrInduction_hardened;
+                        hardnessUnit = unit.HardnessUnit[1];
+                        IsSelected = true;
+                        NotifyOfPropertyChange(() => IsSelected);
+                        NotifyOfPropertyChange(() => HardnessUnit);
+                        break;
+                    case 3:
+                        gearDrive.HardnessType = HardnessMethod.Nitrided;
+                        hardnessUnit = unit.HardnessUnit[1];
+                        IsSelected = true;
+                        NotifyOfPropertyChange(() => IsSelected);
+                        NotifyOfPropertyChange(() => HardnessUnit);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set { isSelected = value; }
+        }
+
+
+        public string HardnessUnit
+        {
+            get { return hardnessUnit; }
+            set { hardnessUnit = value; }
+        }
+
+        public int HardnessValue
+        {
+            get { return gearDrive.Hardness; }
+            set 
+            {
+                if (gearDrive.HardnessType == HardnessMethod.Through_hardened)
+                {
+                    gearDrive.Hardness = value;
+                }
+                else
+                {
+                    gearDrive.CaseHardness = value;
+                }
+            }
+        }
+
 
         private void Gear_CanCalcAllContactStress(object sender, double e)
         {
             GearCalculations.CalcAdjustedContactStress(gearDrive.gear);
             NotifyOfPropertyChange(() => GAllowableContactStress);
             NotifyOfPropertyChange(() => GContactSafetyFactor);
+            NotifyOfPropertyChange(() => Jugdement);
         }
 
         private void Pinion_CanCalcAllContactStress(object sender, double e)
@@ -54,6 +201,7 @@ namespace GearWindow.ViewModels
             GearCalculations.CalcAdjustedContactStress(gearDrive.pinion);
             NotifyOfPropertyChange(() => PAllowableContactStress);
             NotifyOfPropertyChange(() => PContactSafetyFactor);
+            NotifyOfPropertyChange(() => Jugdement);
         }
 
         private void Gear_CanCalcAllBendingStress(object sender, double e)
@@ -61,6 +209,7 @@ namespace GearWindow.ViewModels
             GearCalculations.CalcAdjustedBendingStress(gearDrive.gear);
             NotifyOfPropertyChange(() => GAllowableBendingStress);
             NotifyOfPropertyChange(() => GBendingSafetyFactor);
+            NotifyOfPropertyChange(() => Jugdement);
         }
 
         private void Pinion_CanCalcAllBendingStress(object sender, double e)
@@ -68,6 +217,7 @@ namespace GearWindow.ViewModels
             GearCalculations.CalcAdjustedBendingStress(gearDrive.pinion);
             NotifyOfPropertyChange(() => PAllowableBendingStress);
             NotifyOfPropertyChange(() => PBendingSafetyFactor);
+            NotifyOfPropertyChange(() => Jugdement);
         }
 
         private void GearDrive_CanCalcStressNumbers(object sender, double e)
@@ -81,6 +231,11 @@ namespace GearWindow.ViewModels
             NotifyOfPropertyChange(() => GearBendingStress);
             NotifyOfPropertyChange(() => PinionPittingStress);
             NotifyOfPropertyChange(() => GearPittingStress);
+            NotifyOfPropertyChange(() => PBendingSafetyFactor);
+            NotifyOfPropertyChange(() => GBendingSafetyFactor);
+            NotifyOfPropertyChange(() => PContactSafetyFactor);
+            NotifyOfPropertyChange(() => GContactSafetyFactor);
+            NotifyOfPropertyChange(() => Jugdement);
         }
 
         //private void Gear_CanCalcStressNumbers(object sender, double e)
@@ -428,7 +583,7 @@ namespace GearWindow.ViewModels
                 {
                     ratio = gearDrive.FaceWidth / gearDrive.pinion.PitchDiameter;
                 }
-                return ratio;
+                return Math.Round(ratio, 2);
             }
         }
 
