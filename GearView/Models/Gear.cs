@@ -158,7 +158,7 @@ namespace GearWindow.Models
                     loadCycle = $"{coeff} X 10{pow.ToSuperscriptNumber()} Cycles";
                 }
 
-                CanCalcStressCycleFactors.Invoke(this, _loadCycles);
+                CanCalcStressCycleFactors?.Invoke(this, _loadCycles);
 
                 return loadCycle;
             }

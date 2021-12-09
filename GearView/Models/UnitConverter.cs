@@ -23,14 +23,19 @@ namespace GearWindow.Models
 
             if (convertTo == UnitSystem.English)
             {
-                output = 25.4 * length;
+                output = length / 25.4;
             }
             else
             {
-                output = length / 25.4;
+                output = length * 25.4;
             }
 
             return Round(output, 2);
+        }
+
+        public static double ModuleToDiaPitch(double mag, UnitSystem convertTo)
+        {
+            return Math.Round(25.4 / mag);
         }
 
         public static double MtrAndFoot(double length, UnitSystem convertTo)
@@ -65,6 +70,36 @@ namespace GearWindow.Models
             return Round(output, 2);
         }
 
+        public static double ConvLinvel (double mag, UnitSystem unit)
+        {
+            double output = 0;
+            if (unit == UnitSystem.English)
+            {
+                output = mag / 0.0051;
+            }
+            else
+            {
+                output = mag * 0.0051;
+            }
+
+            return Math.Round(output, 2);
+        }
+
+        public static double ConvStressMag(double mag, UnitSystem unit)
+        {
+            double output = 0;
+            if (unit == UnitSystem.Metric)
+            {
+                output = mag * 6.89;
+            }
+            else
+            {
+                output = mag / 6.89;
+            }
+
+            return Math.Round(output, 2);
+        }
+
         public static double ConvertLengthToBaseUnit(double mag, int selectedIndex)
         {
             if (selectedIndex != 0)
@@ -81,11 +116,11 @@ namespace GearWindow.Models
         {
             if (convertTo == UnitSystem.Metric)
             {
-                return mag * 746;
+                return mag * 0.746;
             }
             else
             {
-                return mag / 746;
+                return mag / 0.746;
             }
            
         }

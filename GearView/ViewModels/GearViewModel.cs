@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace GearWindow.ViewModels
 {
@@ -16,7 +17,8 @@ namespace GearWindow.ViewModels
         IEventAggregator _events;
         private SimpleContainer _container;
         private GearDrive gearDrive;
-        private UnitList unit = new UnitList(1);
+        private UnitList unit;
+        private UnitSystem myUnit = UnitSystem.English;
         private string hardnessUnit;
         private bool isSelected = false;
         private BindableCollection<string> availableMaterials =
@@ -33,6 +35,7 @@ namespace GearWindow.ViewModels
             _events.SubscribeOnPublishedThread(this);
             _container = container;
             gearDrive = new GearDrive();
+            unit = new UnitList((int)myUnit);
             gearDrive.NoOfLoadCyclesChanged += GearDrive_NoOfLoadCyclesChanged;
             gearDrive.pinion.AngVelChanged += Pinion_AngVelChanged;
             gearDrive.gear.AngVelChanged += Gear_AngVelChanged;
@@ -47,6 +50,59 @@ namespace GearWindow.ViewModels
             gearDrive.gear.ReCalcStressFactor += Gear_ReCalcStressFactor;
             gearDrive.ReCalcStressNumbers += GearDrive_ReCalcStressNumbers;
 
+        }
+
+        public void ToImperial()
+        {
+            IsImperial = true;
+        }
+
+        public void ToMetric()
+        {
+            IsMetric = true;
+        }
+        public bool IsMetric
+        {
+            get { return myUnit == UnitSystem.Metric; }
+            set 
+            {
+                if (value == true)
+                {
+                    myUnit = UnitSystem.Metric;
+                    unit = new UnitList((int)myUnit);
+                    NotifyAll();
+                }
+            }
+        }
+
+        public bool IsImperial
+        {
+            get { return myUnit == UnitSystem.English; }
+            set
+            {
+                if (value == true)
+                {
+                    myUnit = UnitSystem.English;
+                    unit = new UnitList((int)myUnit);
+                    NotifyAll();
+                }
+            }
+        }
+
+        public void ClearAll()
+        {
+            gearDrive = new GearDrive();
+            NotifyAll();
+        }
+
+        public void NotifyAll()
+        {
+            Type type = Type.GetType(this.ToString());
+            var propNames = type.GetProperties();
+            foreach (var property in propNames)
+            {
+                NotifyOfPropertyChange(property.Name);
+            }
         }
 
         public string Jugdement
@@ -293,7 +349,7 @@ namespace GearWindow.ViewModels
             return Task.Run(() =>
              {
                 // Update the Application Textbox
-                Application = message.Application;
+                //Application = message.Application;
                 //Update the DesignLife textbox.
                 DesignLife = (double)message.Average;
                 //Close the form;
@@ -342,10 +398,25 @@ namespace GearWindow.ViewModels
         //Input Power
         public double InputPower
         {
-            get { return gearDrive.Power; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.WattsandHp(gearDrive.Power, myUnit);
+                }
+                return gearDrive.Power;
+            }
             set
             {
-                gearDrive.Power = value;
+                if (myUnit == UnitSystem.Metric)
+                {
+                    gearDrive.Power = UnitConverter.WattsandHp(value, UnitSystem.English);
+                }
+                else
+                {
+                    gearDrive.Power = value;
+                }
+                
                 NotifyOfPropertyChange(() => InputPower);
             }
         }
@@ -353,7 +424,10 @@ namespace GearWindow.ViewModels
         //Input Speed
         public double InputSpeed
         {
-            get { return gearDrive.pinion.AngVel; }
+            get 
+            {
+                return gearDrive.pinion.AngVel; 
+            }
             set
             {
                 gearDrive.pinion.AngVel = value;
@@ -364,13 +438,45 @@ namespace GearWindow.ViewModels
         //Diametral Pitch
         public double DiametralPitch
         {
-            get { return gearDrive.DiametralPitch; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return  UnitConverter.ModuleToDiaPitch(gearDrive.DiametralPitch, myUnit);
+                }
+                return gearDrive.DiametralPitch;
+            }
             set
             {
-                gearDrive.DiametralPitch = value;
+                if (myUnit == UnitSystem.English)
+                {
+                    gearDrive.DiametralPitch = value; 
+                }
+                else
+                {
+                    gearDrive.DiametralPitch = UnitConverter.ModuleToDiaPitch(value, myUnit);
+                }
                 NotifyOfPropertyChange(() => DiametralPitch);
             }
         }
+
+        public string ModuleOrDiaPitch
+
+        {
+            get
+            {
+                if (myUnit == UnitSystem.English)
+                {
+                    return "Diametral Pitch";
+                }
+                else
+                {
+                    return "Module";
+                }
+            }
+            
+        }
+
 
         //Show Fig 1 - Graph of diametral pitch
         public void ShowDPGraph()
@@ -481,41 +587,90 @@ namespace GearWindow.ViewModels
 
         public double PinionPitchDiameter
         {
-            get { return gearDrive.pinion.PitchDiameter; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return  UnitConverter.MMandInches(gearDrive.pinion.PitchDiameter, myUnit);
+                }
+                return gearDrive.pinion.PitchDiameter; 
+            }
             //set { gearDrive.pinion.PitchDiameter = value; }
         }
 
         public double GearPitchDiameter
         {
-            get { return gearDrive.gear.PitchDiameter; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return   UnitConverter.MMandInches(gearDrive.gear.PitchDiameter, myUnit);
+                }
+                return gearDrive.gear.PitchDiameter; 
+            }
             //set { gearDrive.gear.PitchDiameter = value; }
         }
 
         public double CenterDistance
         {
-            get { return gearDrive.CenterDistance; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return  UnitConverter.MMandInches(gearDrive.CenterDistance, myUnit);
+                }
+                return gearDrive.CenterDistance; 
+            }
         }
 
         public double PitchLineSpeed
         {
-            get { return gearDrive.PitchLineVel; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return  UnitConverter.ConvLinvel(gearDrive.PitchLineVel, myUnit);
+                }
+                return gearDrive.PitchLineVel; 
+            }
         }
 
         public double TransmittedLoad
         {
-            get { return gearDrive.TangentialForce; }
-            set { gearDrive.TangentialForce = value; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.NewtonAndPound(gearDrive.TangentialForce, myUnit);
+                }
+                return gearDrive.TangentialForce;
+            }
+            //set { gearDrive.TangentialForce = value; }
         }
 
         public double RadialForce
         {
-            get { return gearDrive.RadialForce; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.NewtonAndPound(gearDrive.RadialForce, myUnit);
+                }
+                return gearDrive.RadialForce; 
+            }
             set { gearDrive.RadialForce = value; }
         }
 
         public double NormalForce
         {
-            get { return gearDrive.NormalForce; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.NewtonAndPound(gearDrive.NormalForce, myUnit);
+                }
+                return gearDrive.NormalForce; 
+            }
             set { gearDrive.NormalForce = value; }
         }
 
@@ -528,6 +683,10 @@ namespace GearWindow.ViewModels
                 if (DiametralPitch > 0)
                 {
                     minFaceWidth = Math.Round(8 / DiametralPitch, 3);
+                }
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.MMandInches(minFaceWidth, myUnit);
                 }
                 return minFaceWidth;
             }
@@ -542,6 +701,10 @@ namespace GearWindow.ViewModels
                 {
                     nomFaceWidth = Math.Round(12 / DiametralPitch, 3);
                 }
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.MMandInches(nomFaceWidth, myUnit);
+                }
                 return nomFaceWidth;
             }
         }
@@ -555,6 +718,10 @@ namespace GearWindow.ViewModels
                 {
                     maxFaceWidth = Math.Round(16 / DiametralPitch, 3);
                 }
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.MMandInches(maxFaceWidth, myUnit);
+                }
                 return maxFaceWidth;
             }
         }
@@ -563,11 +730,23 @@ namespace GearWindow.ViewModels
         {
             get
             {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.MMandInches(gearDrive.FaceWidth, myUnit);
+                }
                 return gearDrive.FaceWidth;
             }
             set
             {
-                gearDrive.FaceWidth = value;
+                if (myUnit == UnitSystem.English)
+                {
+                    gearDrive.FaceWidth = value;
+                }
+                else
+                {
+                    gearDrive.DiametralPitch = UnitConverter.MMandInches(value, UnitSystem.English);
+                }
+                
                 NotifyOfPropertyChange(() => FaceWidth);
                 NotifyOfPropertyChange(() => FaceWidth);
             }
@@ -951,36 +1130,78 @@ namespace GearWindow.ViewModels
 
         public double PinionBendingStress
         {
-            get { return gearDrive.pinion.BendingStress; }
-            set { gearDrive.pinion.BendingStress = value; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.ConvStressMag(gearDrive.pinion.BendingStress, myUnit);
+                }
+                return gearDrive.pinion.BendingStress; 
+            }
+            //set { gearDrive.pinion.BendingStress = value; }
         }
 
         public double PAllowableBendingStress
         {
-            get { return gearDrive.pinion.AdjustedBendingStress; }
-            set { gearDrive.pinion.AdjustedBendingStress = value; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.ConvStressMag(gearDrive.pinion.AdjustedBendingStress, myUnit);
+                }
+                return gearDrive.pinion.AdjustedBendingStress; 
+            }
+            //set { gearDrive.pinion.AdjustedBendingStress = value; }
         }
         public double GearBendingStress
         {
-            get { return gearDrive.gear.BendingStress; }
-            set { gearDrive.gear.BendingStress = value; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.ConvStressMag(gearDrive.gear.BendingStress, myUnit);
+                }
+                return gearDrive.gear.BendingStress;
+            }
+            //set { gearDrive.gear.BendingStress = value; }
         }
 
         public double GAllowableBendingStress
         {
-            get { return gearDrive.gear.AdjustedBendingStress; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.ConvStressMag(gearDrive.gear.AdjustedBendingStress, myUnit);
+                }
+                return gearDrive.gear.AdjustedBendingStress; 
+            }
             set { gearDrive.gear.AdjustedBendingStress = value; }
         }
         public double PinionPittingStress
         {
-            get { return gearDrive.pinion.ContactStress; }
-            set { gearDrive.pinion.ContactStress = value; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.ConvStressMag(gearDrive.pinion.ContactStress, myUnit);
+                }
+                return gearDrive.pinion.ContactStress; 
+            }
+           // set { gearDrive.pinion.ContactStress = value; }
         }
 
         public double PAllowableContactStress
         {
-            get { return gearDrive.pinion.AdjustedContactStress; }
-            set { gearDrive.pinion.AdjustedContactStress = value; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.ConvStressMag(gearDrive.pinion.AdjustedContactStress, myUnit);
+                }
+                return gearDrive.pinion.AdjustedContactStress; 
+            }
+            //set { gearDrive.pinion.AdjustedContactStress = value; }
         }
 
         public void ShowContactStressCycleFactor()
@@ -992,14 +1213,28 @@ namespace GearWindow.ViewModels
 
         public double GearPittingStress
         {
-            get { return gearDrive.gear.ContactStress; }
-            set { gearDrive.gear.ContactStress = value; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.ConvStressMag(gearDrive.gear.ContactStress, myUnit);
+                }
+                return gearDrive.gear.ContactStress; 
+            }
+           // set { gearDrive.gear.ContactStress = value; }
         }
 
         public double GAllowableContactStress
         {
-            get { return gearDrive.gear.AdjustedContactStress; }
-            set { gearDrive.gear.AdjustedContactStress = value; }
+            get 
+            {
+                if (myUnit == UnitSystem.Metric)
+                {
+                    return UnitConverter.ConvStressMag(gearDrive.gear.AdjustedContactStress, myUnit);
+                }
+                return gearDrive.gear.AdjustedContactStress; 
+            }
+            //set { gearDrive.gear.AdjustedContactStress = value; }
         }
         public void ShowContactStressCycleFactor2()
         {
@@ -1082,6 +1317,14 @@ namespace GearWindow.ViewModels
         public string ForceUnit
         {
             get { return unit.ForceUnit; }
+        }
+
+        public string StressUnit
+        {
+            get
+            {
+               return $"({unit.StressUnit})";
+            }
         }
     }
 }

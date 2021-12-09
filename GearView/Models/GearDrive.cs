@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace GearWindow.Models
 {
     public enum UnitSystem
-    {
-        English,
-        Metric
+    { 
+       Metric,
+       English
     }
 
     public enum Condition

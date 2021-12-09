@@ -25,6 +25,22 @@ namespace GearWindow.Models
 
         private List<string> _hardnessUnit = new List<string> { "HB", "HRC" };
 
+        private List<string> _stressUnit = new List<string> { "KPa", "psi" };
+
+        public string StressUnit
+        {
+            get 
+            {
+                if (unitId < _stressUnit.Count)
+                {
+                    return _stressUnit[unitId];
+                }
+                return _stressUnit[0];
+            }
+            
+        }
+
+
         private string AngularSpeed = "rpm";
 
 
