@@ -448,6 +448,16 @@ namespace BeltWindow.ViewModels
             NotifyOfPropertyChange(() => LargestAllowableTension);
             NotifyOfPropertyChange(() => Dip);
             NotifyOfPropertyChange(() => FrictionDevelopment);
+            if (FrictionDevelopment < belt.MaxFriction)
+            {
+                MessageBox.Show("Belt Selection is satisfactory! since the friction developed is less than the maximum allowed friction." +
+                    "No slipping will occur");
+            }
+            else
+            {
+                MessageBox.Show("Belt Selection is  not satisfactory! since the friction developed is greater than the maximum allowed friction." +
+                    "Slipping will occur.");
+            }
         }
 
         //Design power textbox

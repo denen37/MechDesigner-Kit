@@ -191,20 +191,28 @@ namespace GearWindow.Models
                         Yn = 3.517 * Pow(L, -0.0817);
                         break;
                     case HardnessMethod.Through_hardened:
-                        switch (gear.Drive.Hardness)
+                        
+                        
+                      
+                        if (gear.Drive.Hardness <= 400 && gear.Drive.Hardness > 250)
                         {
-                            case 400:
-                                Yn = 9.4518 * Pow(L, -0.418);
-                                break;
-                            case 250:
-                                Yn = 4.9404 * Pow(L, -0.1045);
-                                break;
-                            case 160:
-                                Yn = 2.3194 * Pow(L, -0.0538);
-                                break;
-                            default:
-                                break;
+                            Yn = 9.4518 * Pow(L, -0.418);
+                          
                         }
+                        else if (gear.Drive.Hardness <= 250 && gear.Drive.Hardness > 180)
+                        {
+                            Yn = 4.9404 * Pow(L, -0.1045);
+                        }
+                        else if(gear.Drive.Hardness <= 180 && gear.Drive.Hardness >= 160)
+                        {
+                            Yn = 2.3194 * Pow(L, -0.0538);
+                        }
+                        else
+                        {
+
+                        }
+                            
+                        
                         break;
                     default:
                         break;

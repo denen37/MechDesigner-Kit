@@ -392,13 +392,7 @@
                                    Style="{StaticResource unitStyle}"/>
                     </Grid>
                 </Expander>
-                
-                <Expander x:Name="standardGroup" Header="Standard" 
-                          Style="{StaticResource expanderStyle}"></Expander>
-                <Expander x:Name="costAndSupplyGroup" Header="Cost and Supply"
-                          Style="{StaticResource expanderStyle}"></Expander>
-                <Expander x:Name="helpGroup" Header="Help" 
-                          Style="{StaticResource expanderStyle}"></Expander>
+               
             </StackPanel>
         </ScrollViewer>
     </Grid>

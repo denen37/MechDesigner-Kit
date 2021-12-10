@@ -55,21 +55,12 @@
                                 <Image Source="C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Belt Icon mod.png" Width="48"/>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="gearButton" ToolTip="Gears" >
+                        <Button x:Name="LoadGearWindow" ToolTip="Gears" >
                             <Button.Content>
                                 <Image Source="C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Gear Icon.png" Width="48" Height="48"/>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="shaftButton" ToolTip="Shafts">
-                            <Button.Content>
-                                <Image Source="C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Shaft Icon.png" Width="48"/>
-                            </Button.Content>
-                        </Button>
-                        <Button x:Name="materialButton" ToolTip="Engineering Materials">
-                            <Button.Content>
-                                <Image Source="C:\Users\AWAR ABRAHAM\source\repos\MechDesigner_Kit\ParentWindow\Images\Material Icon.png" Width="50"/>
-                            </Button.Content>
-                        </Button>
+                       
                     </ToolBar>
                 </ToolBarTray>
                 <TextBlock Height="0" Margin="0,83.04,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="3"/>

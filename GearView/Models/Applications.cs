@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace GearWindow.Models
 {
-    class Applications
+    public class Applications
     {
         public int Id { get; set; }
 

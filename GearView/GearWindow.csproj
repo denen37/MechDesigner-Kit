@@ -79,45 +79,8 @@
     </Compile>
     <Compile Include="Models\OverloadFactors.cs" />
     <Compile Include="Models\Superscript.cs" />
-    <Compile Include="ViewModels\BendingGeometryViewModel.cs" />
-    <Compile Include="ViewModels\BendingStressCycleViewModel.cs" />
-    <Compile Include="ViewModels\ContactGeometryViewModel.cs" />
-    <Compile Include="ViewModels\ContactStressCycleViewModel.cs" />
-    <Compile Include="ViewModels\GearViewModel.cs" />
-    <Compile Include="ViewModels\OverloadFactorViewModel.cs" />
-    <Compile Include="ViewModels\ReliabilityFactorViewModel.cs" />
-    <Compile Include="ViewModels\RimThicknessViewModel.cs" />
-    <Compile Include="ViewModels\SizeFactorViewModel.cs" />
-    <Compile Include="Views\BendingGeometryView.xaml.cs">
-      <DependentUpon>BendingGeometryView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BendingStressCycleView.xaml.cs">
-      <DependentUpon>BendingStressCycleView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ContactGeometryView.xaml.cs">
-      <DependentUpon>ContactGeometryView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ContactStressCycleView.xaml.cs">
-      <DependentUpon>ContactStressCycleView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OverloadFactorView.xaml.cs">
-      <DependentUpon>OverloadFactorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\QualityNoView.xaml.cs">
-      <DependentUpon>QualityNoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ReliabilityFactorView.xaml.cs">
-      <DependentUpon>ReliabilityFactorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RimThicknessView.xaml.cs">
-      <DependentUpon>RimThicknessView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SizeFactorView.xaml.cs">
-      <DependentUpon>SizeFactorView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Models\Applications.cs" />
     <Compile Include="Models\Gear.cs" />
     <Compile Include="Models\GearCalculations.cs" />
@@ -125,18 +88,6 @@
     <Compile Include="Models\GearDrive.cs" />
     <Compile Include="Models\UnitConverter.cs" />
     <Compile Include="Models\UnitList.cs" />
-    <Compile Include="ViewModels\DPGraphViewModel.cs" />
-    <Compile Include="ViewModels\GearAppViewModel.cs" />
-    <Compile Include="ViewModels\QualityNoViewModel.cs" />
-    <Compile Include="Views\DPGraphView.xaml.cs">
-      <DependentUpon>DPGraphView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GearAppView.xaml.cs">
-      <DependentUpon>GearAppView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GearView.xaml.cs">
-      <DependentUpon>GearView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -154,6 +105,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -161,56 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Views\BendingGeometryView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BendingStressCycleView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ContactGeometryView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ContactStressCycleView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DPGraphView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GearAppView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GearView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OverloadFactorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\QualityNoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ReliabilityFactorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RimThicknessView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SizeFactorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Quality Numbers.PNG" />

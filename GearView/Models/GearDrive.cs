@@ -134,7 +134,7 @@ namespace GearWindow.Models
             get { return _hardness; }
             set 
             {
-                _hardnessRatio = value;
+                _hardness = value;
                 ReCalcStressNumbers?.Invoke(this, value);
             }
         }

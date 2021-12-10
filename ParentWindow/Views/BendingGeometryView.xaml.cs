@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ParentWindow.Views
 {
     /// <summary>
-    /// Interaction logic for BeltView.xaml
+    /// Interaction logic for BendingGeometryView.xaml
     /// </summary>
-    public partial class BeltView : UserControl
+    public partial class BendingGeometryView : Window
     {
-        public BeltView()
+        public BendingGeometryView()
         {
             InitializeComponent();
         }

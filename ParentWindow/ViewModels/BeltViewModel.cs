@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BeltWindow.Models;
+using System.Windows;
+using BeltWindow.EventsModel;
+using BeltWindow;
 
 namespace ParentWindow.ViewModels
 {
@@ -12,16 +15,19 @@ namespace ParentWindow.ViewModels
     {
         private BeltProperties belt = new BeltProperties();
         private List<float> thicknessess = null;
-        private BindableCollection<BeltProperties> belts = new BindableCollection<BeltProperties>();
-        private UnitList unit = new UnitList(1);
+        private BindableCollection<string> belts = new BindableCollection<string>();
+        private UnitList unit = new UnitList(0);
+        private MessagesModel msg = new MessagesModel();
+        MsgBoxParam box;
+        //private MessagesModel msg = new MessagesModel(this.belt);
 
 
         public BeltViewModel()
         {
-            belts.Add(new BeltProperties("Polyamide"));
-            belts.Add(new BeltProperties("Leather"));
-            belts.Add(new BeltProperties("Urethane Flat"));
-            belts.Add(new BeltProperties("Urethane Round"));
+            belts.Add("Polyamide");
+            belts.Add("Leather");
+            belts.Add("Urethane Flat");
+            belts.Add("Urethane Round");
 
             ////Populate Specification dropdown.
             //GetSpecifications();
@@ -29,22 +35,34 @@ namespace ParentWindow.ViewModels
             ////Populate Thickness dropdown;
             //GetThicknessess();
         }
-
-        public BeltProperties SelectedBelt
+        
+        public string SelectedBelt
         {
             set
             {
                 if (value != null)
                 {
-                    belt = value;
+                    belt = new BeltProperties(value);
                 }
+
             }
         }
+
+        public int SelectedBeltId
+        {
+            set
+            {
+                belt.BeltMaterialId = value;
+            }
+        }
+
 
         #region Belt Specification
         //Connect to Database and get specifications
         public void GetSpecifications()
         {
+            //MessageBox.Show("You are attempting the change the belt material. Do you want to Clear all the previous data?",
+            //    "Belt Materials");
             List<string> specifications = BeltDbConnection.GetBeltSpecification(belt.BeltMaterialId);
             Specification = new BindableCollection<string>(specifications);
             NotifyOfPropertyChange(() => Specification);
@@ -64,7 +82,7 @@ namespace ParentWindow.ViewModels
         //Connect to database and get thicknessess.
         public void GetThicknessess()
         {
-            thicknessess = BeltDbConnection.GetBeltThicknessValues(belt.BeltMaterialId, belt.Specification);
+            thicknessess = BeltDbConnection.GetBeltThicknessValues( belt.BeltMaterialId, belt.Specification );
             NotifyOfPropertyChange(() => Thicknessess);
         }
 
@@ -118,17 +136,22 @@ namespace ParentWindow.ViewModels
             }
             set
             {
-                if (unit.UnitId == 1 && value > 0)
-                {
-                    belt.BeltWidth = UnitConverter.MMandInches(value, unit.UnitId - 1);
-                }
+                if (Invalid(value)) 
+                    return;
                 else
-                belt.BeltWidth = value;    
+                {
+                    if (unit.UnitId == 1 && value > 0)
+                    {
+                        belt.BeltWidth = UnitConverter.MMandInches(value, unit.UnitId - 1);
+                    }
+                    else
+                        belt.BeltWidth = value;
+                } 
             }
         }
 
         //Belt Materials
-        public BindableCollection<BeltProperties> BeltMaterials
+        public BindableCollection<string> BeltMaterials
         {
             get { return belts; }
             set { belts = value; }
@@ -148,13 +171,29 @@ namespace ParentWindow.ViewModels
             }
             set
             {
-                if (unit.UnitId == 1 && value > 0)
-                {
-                    belt.SmallPulleySize = UnitConverter.MMandInches(value, unit.UnitId - 1);
-                }
+                if (Invalid(value))
+                    return;
                 else
-                    belt.SmallPulleySize = value;
-                NotifyOfPropertyChange(() => SmallPulleyDiameter);
+                {
+                    if (value < belt.MinSmallPulleySize)
+                    {
+                        MsgBoxParam m = new MsgBoxParam(belt.SmallPulleyTooSmallTxt);
+                        msg._belt_message(m);
+                        return;
+                    }
+                    else
+                    {
+                        if (unit.UnitId == 1 && value > 0)
+                        {
+                            belt.SmallPulleySize = UnitConverter.MMandInches(value, unit.UnitId - 1);
+                        }
+                        else
+                            belt.SmallPulleySize = value;
+                        NotifyOfPropertyChange(() => SmallPulleyDiameter);
+                    }
+                }
+
+               
             }
         }
 
@@ -173,22 +212,40 @@ namespace ParentWindow.ViewModels
             }
             set
             {
-                if (unit.UnitId == 1 && value > 0)
-                {
-                    belt.BigPulleySize = UnitConverter.MMandInches(value, unit.UnitId - 1);
-                }
+                if (Invalid(value)) 
+                    return;
                 else
-                    belt.BigPulleySize = value;
-
-                //Big pulley and Small pulley has value.
-                if (belt.SmallPulleySize > 0 && belt.BigPulleySize > 0)
                 {
-                    belt.VelocityRatio = belt.BigPulleySize / belt.SmallPulleySize;
-                }
-                else { belt.VelocityRatio = 0; }
+                    if (value < belt.SmallPulleySize)
+                    {
+                        MsgBoxParam m = new MsgBoxParam(belt.BigPulleyIsTooSmallTxt);
+                        msg._belt_message(m);
+                        return;
+                    }
+                    else
+                    {
+                        if (unit.UnitId == 1)
+                        {
+                            belt.BigPulleySize = UnitConverter.MMandInches(value, unit.UnitId - 1);
+                        }
+                        else
+                            belt.BigPulleySize = value;
 
-                NotifyOfPropertyChange(() => CanChangeVelocityRatio);
-                NotifyOfPropertyChange(() => VelocityRatio);
+                        //Big pulley and Small pulley has value.
+                        if (belt.SmallPulleySize > 0 && belt.BigPulleySize > 0)
+                        {
+                            belt.VelocityRatio = belt.BigPulleySize / belt.SmallPulleySize;
+                        }
+                        else { belt.VelocityRatio = 0; }
+
+                        NotifyOfPropertyChange(() => CanChangeVelocityRatio);
+                        NotifyOfPropertyChange(() => VelocityRatio);
+                    }
+
+                    
+                }
+
+                
             }
         }
 
@@ -219,16 +276,20 @@ namespace ParentWindow.ViewModels
             }
             set
             {
-                belt.VelocityRatio = value;
-
-                //Small pulley and velocity ratio has value.
-                if (belt.SmallPulleySize > 0 && belt.VelocityRatio > 0)
+                if (Invalid(value)) return;
+                else
                 {
-                    belt.BigPulleySize = belt.SmallPulleySize * belt.VelocityRatio;
+                    belt.VelocityRatio = value;
+
+                    //Small pulley and velocity ratio has value.
+                    if (belt.SmallPulleySize > 0 && belt.VelocityRatio > 0)
+                    {
+                        belt.BigPulleySize = belt.SmallPulleySize * belt.VelocityRatio;
+                    }
+                    else { belt.BigPulleySize = 0; }
+                    NotifyOfPropertyChange(() => BigPulleyDiameter);
+                    NotifyOfPropertyChange(() => CanChangeVelocityRatio);
                 }
-                else { belt.BigPulleySize = 0; }
-                NotifyOfPropertyChange(() => BigPulleyDiameter);
-                NotifyOfPropertyChange(() => CanChangeVelocityRatio);
             }
         }
 
@@ -246,19 +307,30 @@ namespace ParentWindow.ViewModels
             }
             set
             {
-                if (unit.UnitId == 1 && value > 0)
-                {
-                    belt.CentreToCentreDistance = UnitConverter.MtrAndFoot(value, unit.UnitId - 1);
-                }
+                if (Invalid(value)) return;
                 else
-                    belt.CentreToCentreDistance = value;
+                {
+                    if ((value * 1000) < (3 * belt.BigPulleySize))
+                    {
+                        box = new MsgBoxParam(belt.CentrDistTooSmallTxt);
+                        msg._belt_message(box);
+                        return;
+                    }
+                    if (unit.UnitId == 1 )
+                    {
+                        belt.CentreToCentreDistance = UnitConverter.MtrAndFoot(value, unit.UnitId - 1);
+                    }
+                    else
+                        belt.CentreToCentreDistance = value;
 
-                BeltCalculations.CalculateLength(belt);
-                BeltCalculations.CalculateAnglesOfContact(belt);
+                    BeltCalculations.CalculateLength(belt);
+                    BeltCalculations.CalculateAnglesOfContact(belt);
 
-                NotifyOfPropertyChange(() => Length);
-                NotifyOfPropertyChange(() => AngleOfContactA);
-                NotifyOfPropertyChange(() => AngleOfContactB);
+                    NotifyOfPropertyChange(() => Length);
+                    NotifyOfPropertyChange(() => AngleOfContactA);
+                    NotifyOfPropertyChange(() => AngleOfContactB);
+                } 
+
             }
         }
 
@@ -297,13 +369,41 @@ namespace ParentWindow.ViewModels
         public double ServiceFactor
         {
             get { return belt.ServiceFactor; }
-            set { belt.ServiceFactor = value; }
+            set 
+            {
+                if (Invalid(value)) return;
+                else
+                {
+
+                    if (value < 1)
+                    {
+                        box = new MsgBoxParam(belt.ServFactTooSmall);
+                        msg._belt_message(box);
+                        return;
+                    }
+                    belt.ServiceFactor = value;
+                }
+            }
         }
 
         public double DesignFactor
         {
             get { return belt.DesignFactor; }
-            set { belt.DesignFactor = value; }
+            set
+            {
+                if (Invalid(value)) return;
+                else
+                {
+
+                    if (value < 1)
+                    {
+                        box = new MsgBoxParam(belt.ServFactTooSmall);
+                        msg._belt_message(box);
+                        return;
+                    }
+                    belt.DesignFactor = value;
+                }
+            }
         }
 
         //Angular velocity textbox
@@ -312,11 +412,16 @@ namespace ParentWindow.ViewModels
             get { return belt.AngularVelocity; }
             set
             {
-                belt.AngularVelocity = value;
-                if (VelocityRatio > 0 && SmallPulleyDiameter > 0)
+                if (Invalid(value)) 
+                    return;
+                else
                 {
-                    BeltCalculations.CalculateLinearVelocity(belt);
-                    NotifyOfPropertyChange(() => LinVel);
+                    belt.AngularVelocity = value;
+                    if (VelocityRatio > 0 && SmallPulleyDiameter > 0)
+                    {
+                        BeltCalculations.CalculateLinearVelocity(belt);
+                        NotifyOfPropertyChange(() => LinVel);
+                    }
                 }
             }
         }
@@ -341,6 +446,18 @@ namespace ParentWindow.ViewModels
             NotifyOfPropertyChange(() => CentrifugalForce);
             NotifyOfPropertyChange(() => Torque);
             NotifyOfPropertyChange(() => LargestAllowableTension);
+            NotifyOfPropertyChange(() => Dip);
+            NotifyOfPropertyChange(() => FrictionDevelopment);
+            if (FrictionDevelopment < belt.MaxFriction)
+            {
+                MessageBox.Show("Belt Selection is satisfactory! since the friction developed is less than the maximum allowed friction." +
+                    "No slipping will occur");
+            }
+            else
+            {
+                MessageBox.Show("Belt Selection is  not satisfactory! since the friction developed is greater than the maximum allowed friction." +
+                    "Slipping will occur.");
+            }
         }
 
         //Design power textbox
@@ -349,7 +466,12 @@ namespace ParentWindow.ViewModels
             get { return belt.PowerTransmitted; }
             set
             {
-                belt.PowerTransmitted = value;
+
+                if (Invalid(value)) return;
+                else
+                {
+                    belt.PowerTransmitted = value;
+                }
             }
         }
 
@@ -360,7 +482,7 @@ namespace ParentWindow.ViewModels
             {
                 double approxValue = Math.Round(belt.BeltWeight, 2);
 
-                if (unit.UnitId == 0 && approxValue > 0)
+                if (unit.UnitId == 1 && approxValue > 0)
                 {
                     return UnitConverter.NewtonAndPound(approxValue, unit.UnitId);
                 }
@@ -373,7 +495,7 @@ namespace ParentWindow.ViewModels
             get
             {
                 double approxValue = Math.Round(belt.CentrifugalForce, 2);
-                if (unit.UnitId == 0 && approxValue > 0)
+                if (unit.UnitId == 1 && approxValue > 0)
                 {
                     return UnitConverter.NewtonAndPound(approxValue, unit.UnitId);
                 }
@@ -386,7 +508,7 @@ namespace ParentWindow.ViewModels
             get
             {
                 double approxValue = Math.Round(belt.InitialTension, 2);
-                if (unit.UnitId == 0 && approxValue > 0)
+                if (unit.UnitId == 1 && approxValue > 0)
                 {
                     return UnitConverter.NewtonAndPound(approxValue, unit.UnitId);
                 }
@@ -400,7 +522,7 @@ namespace ParentWindow.ViewModels
             get
             {
                 double approxValue = Math.Round(belt.TightTension, 2);
-                if (unit.UnitId == 0 && approxValue > 0)
+                if (unit.UnitId == 1 && approxValue > 0)
                 {
                     return UnitConverter.NewtonAndPound(approxValue, unit.UnitId);
                 }
@@ -413,7 +535,7 @@ namespace ParentWindow.ViewModels
             get
             {
                 double approxValue = Math.Round(belt.SlackTension, 2);
-                if (unit.UnitId == 0 && approxValue > 0)
+                if (unit.UnitId == 1 && approxValue > 0)
                 {
                     return UnitConverter.NewtonAndPound(approxValue, unit.UnitId);
                 }
@@ -463,13 +585,31 @@ namespace ParentWindow.ViewModels
             get
             {
                 double approxValue = Math.Round(belt.LargestAllowableTension, 2);
-                if (unit.UnitId == 0 && approxValue > 0)
+                if (unit.UnitId == 1 && approxValue > 0)
                 {
                     return UnitConverter.NewtonAndPound(approxValue, unit.UnitId);
                 }
                 return approxValue;
             }
         }
+
+
+        public double FrictionDevelopment
+        {
+            get
+            {
+                double approxValue = Math.Round(belt.FrictionDevelopment, 2);
+                return approxValue;
+            }
+        }
+
+
+        public bool IsOpen
+        {
+            get { return belt.IsOpen; }
+            set { belt.IsOpen = value; }
+        }
+
 
         public void GetBeltData()
         {
@@ -535,6 +675,66 @@ namespace ParentWindow.ViewModels
         public string LinVelUnit
         {
             get { return unit.LinearVelocityUnit; }
+        }
+
+        public string WeightUnit
+        {
+            get { return unit.UnitWeightUnit; }
+        }
+
+        public bool Invalid(double input)
+        {
+            if ((input < 0))
+            {
+                box = new MsgBoxParam(belt.InvalidInputTxt);
+                msg._belt_message(box);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void ClearAll()
+        {
+            box = new MsgBoxParam(belt.ConfirmClearAll, "Confirm");
+            box.MsgButton = MessageBoxButton.YesNo;
+            MessageBoxResult choice = MessageBox.Show(box.Message, box.Caption, box.MsgButton);
+
+            if (choice == MessageBoxResult.Yes)
+            {
+                belt = new BeltProperties();
+                Specification = null;
+                Thicknessess = null;
+
+                NotifyOfPropertyChange(() => BeltWeight);
+                NotifyOfPropertyChange(() => TightTension);
+                NotifyOfPropertyChange(() => SlackTension);
+                NotifyOfPropertyChange(() => InitialTension);
+                NotifyOfPropertyChange(() => CentrifugalForce);
+                NotifyOfPropertyChange(() => Torque);
+                NotifyOfPropertyChange(() => LargestAllowableTension);
+                NotifyOfPropertyChange(() => Dip);
+                NotifyOfPropertyChange(() => FrictionDevelopment);
+                NotifyOfPropertyChange(() => Specification);
+                NotifyOfPropertyChange(() => Thicknessess);
+                NotifyOfPropertyChange(() => BeltWidth);
+                NotifyOfPropertyChange(() => SmallPulleyDiameter);
+                NotifyOfPropertyChange(() => BigPulleyDiameter);
+                NotifyOfPropertyChange(() => Length);
+                NotifyOfPropertyChange(() => VelocityRatio);
+                NotifyOfPropertyChange(() => CtoCDistance);
+                NotifyOfPropertyChange(() => AngleOfContactA);
+                NotifyOfPropertyChange(() => AngleOfContactB);
+                NotifyOfPropertyChange(() => AngVel);
+                NotifyOfPropertyChange(() => LinVel);
+                NotifyOfPropertyChange(() => PowerTransmitted);
+                NotifyOfPropertyChange(() => ServiceFactor);
+                NotifyOfPropertyChange(() => DesignFactor);
+                NotifyOfPropertyChange(() => PulleyCorrectionFactor);
+                NotifyOfPropertyChange(() => VelocityCorrectionFactor);
+
+
+            }
         }
     }
 }

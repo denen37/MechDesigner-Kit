@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GearWindow.Views
+namespace ParentWindow.Views
 {
     /// <summary>
     /// Interaction logic for GearView.xaml
