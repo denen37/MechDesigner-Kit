@@ -126,23 +126,23 @@ namespace ParentWindow.ViewModels
                     if (PBendingSafetyFactor < 1)
                     {
                         conclusion = $"The Gear Design Will Not Be Able To Withstand the bending stress since " +
-                            $"the Pinion Bending Safety Factor is Less than 1\nConsider selecting another diametral pitch";
+                            $"the Pinion Bending Safety Factor is Less than 1. Consider selecting another diametral pitch";
                         
                     }
                     else if(GBendingSafetyFactor < 1)
                     {
-                        conclusion = $"The Gear Design Will Not Be Able\nTo Withstand the bending stress since \n" +
-                            $"the Gear Bending Safety Factor is Less than 1\nConsider selecting another diametral pitch ";
+                        conclusion = $"The Gear Design Will Not Be Able To Withstand the bending stress since " +
+                            $"the Gear Bending Safety Factor is Less than 1. Consider selecting another diametral pitch ";
                     }
                     else if (PContactSafetyFactor < 1)
                     {
-                        conclusion = $"The Gear Design Will Not Be Able\nTo Withstand the contact stress since\n " +
-                            $"the Pinion Contact Safety Factor is Less than 1\nConsider selecting a larger face width";
+                        conclusion = $"The Gear Design Will Not Be Able To Withstand the contact stress since" +
+                            $"the Pinion Contact Safety Factor is Less than 1. Consider selecting a larger face width";
                     }
                     else if (GContactSafetyFactor < 1)
                     {
-                        conclusion = $"The Gear Design Will Not Be Able\nTo Withstand the contact stress since\n" +
-                            $"the Gear Contact Safety Factor is Less than 1\nConsider selecting a larger face width";
+                        conclusion = $"The Gear Design Will Not Be Able To Withstand the contact stress since" +
+                            $"the Gear Contact Safety Factor is Less than 1. Consider selecting a larger face width";
                     }
                     else
                     {

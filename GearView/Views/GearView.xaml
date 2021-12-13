@@ -1167,7 +1167,8 @@
                         
 
                         <!--Left Parent Row 14-->
-                        <TextBlock Grid.Row="13" Text="{Binding Jugdement}" Style="{StaticResource TxtBlkStyle_Param}"/>
+                        <TextBlock Grid.Row="13" Text="{Binding Jugdement}" Style="{StaticResource TxtBlkStyle_Param}" TextAlignment="Left"
+                                   TextWrapping="Wrap" Width="450"/>
                         
                         
                     
